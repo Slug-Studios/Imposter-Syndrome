@@ -54,11 +54,22 @@ public class playerController : MonoBehaviour
                 //Simple Movement Script using force
                 if (isProne)
                 {
+                    if (Mathf.Sqrt(Mathf.Pow(Physics.velocity.x, 2) + Mathf.Pow(Physics.velocity.z, 2)) >= 10f)
+                    {
+                        Physics.mass = 0.1f;
+                        Physics.drag = 1;
+                    } else
+                    {
+                        Physics.mass = 0.01f;
+                        Physics.drag = 10;
+                    }
                     Physics.AddRelativeForce(new Vector3(speed * Time.deltaTime * Input.GetAxis("Horizontal") * (float).25, 0, speed * Time.deltaTime * (float).25 * Input.GetAxis("Vertical")));
                 }
                 else
                 {
-                    Physics.AddRelativeForce(new Vector3(speed * Time.deltaTime * Input.GetAxis("Horizontal") * Mathf.Pow((Input.GetAxis("Sprint") + (float)1.25), 2), 0, speed * Time.deltaTime * Input.GetAxis("Vertical") * Mathf.Pow((Input.GetAxis("Sprint") + (float)1.25), 2)));
+                    Physics.mass = 0.01f;
+                    Physics.drag = 10;
+                    Physics.AddRelativeForce(new Vector3(speed * Time.deltaTime * Input.GetAxis("Horizontal") * (Input.GetAxis("Sprint") + (float)1.25), 0, speed * Time.deltaTime * Input.GetAxis("Vertical") * Mathf.Pow((Input.GetAxis("Sprint") + (float)1.25), 2)));
                 }
                 transform.Rotate(Vector3.up, rotSpeed * Time.deltaTime * Input.GetAxis("Mouse X"));
 

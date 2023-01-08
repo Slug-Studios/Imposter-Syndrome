@@ -16,6 +16,8 @@ public class imposterBrain : MonoBehaviour
     public AudioSource KillSound;
     public LayerMask playerMask;
     private float time;
+    private float time1;
+    private Rigidbody ImpRigigbody;
 
     void Awake()
     {
@@ -24,7 +26,7 @@ public class imposterBrain : MonoBehaviour
     private void Start()
     {
         MainMusic.volume = mainMenuCtrl.entityV;
-
+        ImpRigigbody = gameObject.GetComponent<Rigidbody>();
     }
     // Update is called once per frame
     void Update()
@@ -39,28 +41,44 @@ public class imposterBrain : MonoBehaviour
                 speed = chaseSpeed;
                 if (Look(80)) //if it sees the player it updates his position
                 {
-                    target = new GameObject("target").transform;
-                    target = player;
+                    if (target == null)
+                    {
+                        target = new GameObject("target").transform;
+                    }
+                    target.position = player.position;
                 }
                 if (target != null)
                 {
                     //Run Pathfinding
                     FindPath(transform.position, target.position);
                 }
-                if (Physics.CheckBox(transform.position, new Vector3(1,10,1), transform.rotation, playerMask))
+                if (Physics.CheckBox(transform.position, new Vector3(1.5f,10,1.5f), transform.rotation, playerMask))
                 {
-                    Debug.Log("FOUND YOU(IMP)");
+                    Debug.Log("GOT YOU(IMP)");
                     seekPhase = 0;
                     StartCoroutine("killAnimation");
-                } else if (Path != null && target != null && Path[0].offsetFromMainParent != null)
+                } else if (Path != null && target != null && Path[0].offsetFromMainParent != null && Mathf.Sqrt(Mathf.Pow(ImpRigigbody.velocity.x, 2) + Mathf.Pow(ImpRigigbody.velocity.z, 2)) <= speed)
                 {
                     transform.rotation = Quaternion.Euler(0, Mathf.Atan2(Path[0].offsetFromMainParent.x, Path[0].offsetFromMainParent.z) * Mathf.Rad2Deg + 180, 0);
-                    transform.Translate(Vector3.forward * speed * Time.deltaTime, transform);
+                    ImpRigigbody.AddRelativeForce(Vector3.forward * speed * Time.deltaTime);
                     
                 }
                 if (target == null) //if it looses track of the player, spin around for a bit, if nothing still; swap to wandering
                 {
                     seekPhase = 3;
+                }
+                //if velocity is 0 for 5 seconds, swap to wandering
+                if (ImpRigigbody.velocity == Vector3.zero)
+                {
+                    time1 = time1 + Time.deltaTime;
+                    if (time1 >= 5)
+                    {
+                        Destroy(target.gameObject);
+                    }
+                }
+                else
+                {
+                    time1 = 0;
                 }
                 break;
             case 2: //2, wandering
@@ -73,10 +91,10 @@ public class imposterBrain : MonoBehaviour
                 {
                     FindPath(transform.position, target.position);
                 }
-                if (Path != null && target != null && Path[0].offsetFromMainParent != null)
+                if (Path != null && target != null && Path[0].offsetFromMainParent != null && Mathf.Sqrt(Mathf.Pow(ImpRigigbody.velocity.x, 2) + Mathf.Pow(ImpRigigbody.velocity.z, 2)) <= speed)
                 {
                     transform.rotation = Quaternion.Euler(0, Mathf.Atan2(Path[0].offsetFromMainParent.x, Path[0].offsetFromMainParent.z) * Mathf.Rad2Deg + 180, 0);
-                    transform.Translate(Vector3.forward * speed * Time.deltaTime, transform);
+                    ImpRigigbody.AddRelativeForce(Vector3.forward * speed * Time.deltaTime);
                 }
                 if (time >= 0 || target == null) // every 10 seconds or if the target is null, find a new path
                 {
@@ -85,6 +103,19 @@ public class imposterBrain : MonoBehaviour
                     target.position = transform.position + new Vector3(Random.Range(-50, 50), 0, Random.Range(-50,50));
                 }
                 time = time +Time.deltaTime;
+                //if velocity is 0 for 3 seconds, make target null
+                if (ImpRigigbody.velocity == Vector3.zero)
+                {
+                    time1 = time1 + Time.deltaTime;
+                    if (time1 >= 3)
+                    {
+                        Destroy(target.gameObject);
+                    }
+                }
+                else
+                {
+                    time1 = 0;
+                }
                 break;
             case 3: //3, search(for when it looses track of the player)
                 time = time + Time.deltaTime;
@@ -119,8 +150,7 @@ public class imposterBrain : MonoBehaviour
                 {
                     angle = angle-360;
                 }
-                Debug.Log(angle);
-                //if (angle >= -Angle && angle <= Angle)
+                if (angle >= -Angle && angle <= Angle)
                 {
                     return true;
                 }
@@ -128,7 +158,7 @@ public class imposterBrain : MonoBehaviour
             }
 
         }
-        return true;
+        return false;
     }
     IEnumerator SeesPlayer()
     {
@@ -141,6 +171,8 @@ public class imposterBrain : MonoBehaviour
 
     IEnumerator killAnimation()
     {
+        ImpRigigbody.velocity = Vector3.zero;
+        ImpRigigbody.angularVelocity = Vector3.zero;
         player.GetComponent<playerController>().DeathAnim(transform);
         MainMusic.volume = mainMenuCtrl.entityV/4;
         yield return new WaitForSeconds(1);

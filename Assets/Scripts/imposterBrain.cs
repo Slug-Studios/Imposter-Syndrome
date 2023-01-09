@@ -67,11 +67,11 @@ public class imposterBrain : MonoBehaviour
                 {
                     seekPhase = 3;
                 }
-                //if velocity is 0 for 5 seconds, swap to wandering
-                if (ImpRigigbody.velocity == Vector3.zero)
+                //if velocity is close to 0 for 2 seconds, make target null
+                if (ImpRigigbody.velocity == Vector3.zero || Mathf.Abs(ImpRigigbody.velocity.x) <=0.1f && Mathf.Abs(ImpRigigbody.velocity.z) <= 0.1f)
                 {
                     time1 = time1 + Time.deltaTime;
-                    if (time1 >= 5)
+                    if (time1 >= 2)
                     {
                         Destroy(target.gameObject);
                     }
@@ -103,11 +103,11 @@ public class imposterBrain : MonoBehaviour
                     target.position = transform.position + new Vector3(Random.Range(-50, 50), 0, Random.Range(-50,50));
                 }
                 time = time +Time.deltaTime;
-                //if velocity is 0 for 3 seconds, make target null
-                if (ImpRigigbody.velocity == Vector3.zero)
+                //if velocity is 0 for 1 second, make target null
+                if (ImpRigigbody.velocity == Vector3.zero || Mathf.Abs(ImpRigigbody.velocity.x) <= 0.1f && Mathf.Abs(ImpRigigbody.velocity.z) <= 0.1f)
                 {
                     time1 = time1 + Time.deltaTime;
-                    if (time1 >= 3)
+                    if (time1 >= 1)
                     {
                         Destroy(target.gameObject);
                     }
@@ -116,6 +116,7 @@ public class imposterBrain : MonoBehaviour
                 {
                     time1 = 0;
                 }
+                
                 break;
             case 3: //3, search(for when it looses track of the player)
                 time = time + Time.deltaTime;
@@ -130,9 +131,26 @@ public class imposterBrain : MonoBehaviour
                 }
                 break;
         }
+    }
+    public void HearPlayer(float playerNoise)
+    {
+        float distance = (Mathf.Abs(Mathf.Sqrt(Mathf.Pow(player.position.x - transform.position.x, 2) + Mathf.Pow(player.position.z - transform.position.z, 2))));
+        float hearchance = Mathf.Clamp01(playerNoise / distance -0.01f)*100f;
 
-        
-
+        if (hearchance <= (float)Random.Range(100, 0))
+        {
+            float RandX = (Mathf.Clamp(distance, 0, Random.Range(10, 110)) - 10);
+            float RandY = (Mathf.Clamp(distance, 0, Random.Range(10, 110)) - 10);
+            Vector3 potentialTarget = player.position + new Vector3(RandX - RandX/2,0,RandY - RandY/2);
+            if (target == null)
+            {
+                target = new GameObject().transform;
+                target.position = potentialTarget;
+            } else
+            {
+                target.position = potentialTarget;
+            }
+        }
     }
 
     bool Look(float Angle)

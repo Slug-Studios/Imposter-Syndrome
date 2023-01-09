@@ -22,6 +22,10 @@ public class playerController : MonoBehaviour
     private bool dead;
     private int killer;
     private float time;
+    public AudioSource Ambience;
+    public AudioSource footStep;
+    private float stepDelay;
+    public imposterBrain Imposter;
 
     // Start is called before the first frame update
     void Start()
@@ -37,7 +41,7 @@ public class playerController : MonoBehaviour
     {
 
         //Set volume from values
-        GetComponent<AudioSource>().volume = mainMenuCtrl.ambientV;
+        Ambience.volume = mainMenuCtrl.ambientV;
 
         
         if (canMove)
@@ -63,13 +67,13 @@ public class playerController : MonoBehaviour
                         Physics.mass = 0.01f;
                         Physics.drag = 10;
                     }
-                    Physics.AddRelativeForce(new Vector3(speed * Time.deltaTime * Input.GetAxis("Horizontal") * (float).25, 0, speed * Time.deltaTime * (float).25 * Input.GetAxis("Vertical")));
+                    Physics.AddRelativeForce(new Vector3(speed * Time.deltaTime * Input.GetAxis("Horizontal") * .25f, 0, speed * Time.deltaTime * .25f * Input.GetAxis("Vertical")));
                 }
                 else
                 {
                     Physics.mass = 0.01f;
                     Physics.drag = 10;
-                    Physics.AddRelativeForce(new Vector3(speed * Time.deltaTime * Input.GetAxis("Horizontal") * (Input.GetAxis("Sprint") + (float)1.25), 0, speed * Time.deltaTime * Input.GetAxis("Vertical") * Mathf.Pow((Input.GetAxis("Sprint") + (float)1.25), 2)));
+                    Physics.AddRelativeForce(new Vector3(speed * Time.deltaTime * Input.GetAxis("Horizontal") * (Input.GetAxis("Sprint") + 1.5f), 0, speed * Time.deltaTime * Input.GetAxis("Vertical") * (Input.GetAxis("Sprint") + 2f)));
                 }
                 transform.Rotate(Vector3.up, rotSpeed * Time.deltaTime * Input.GetAxis("Mouse X"));
 
@@ -92,6 +96,22 @@ public class playerController : MonoBehaviour
             else
             {
                 menu.enabled = true;
+            }
+            float velocity = Mathf.Sqrt(Mathf.Pow(Physics.velocity.x, 2) + Mathf.Pow(Physics.velocity.z, 2));
+            if (velocity > 0) //play footsteps dependant on speed, also notify imposter about them
+            {
+                velocity = Mathf.Clamp(velocity, 2, 10)/2;
+                stepDelay = stepDelay + Time.deltaTime;
+                if (stepDelay >= 2 / velocity)
+                {
+                    footStep.volume = velocity/5;
+                    stepDelay = 0;
+                    if (!isProne)
+                    {
+                        footStep.Play();
+                    }
+                    Imposter.HearPlayer(footStep.volume);
+                }
             }
         }
         //if dead, fad in the death screen

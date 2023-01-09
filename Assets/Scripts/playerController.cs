@@ -104,13 +104,13 @@ public class playerController : MonoBehaviour
                 stepDelay = stepDelay + Time.deltaTime;
                 if (stepDelay >= 2 / velocity)
                 {
-                    footStep.volume = velocity/5;
+                    footStep.volume = velocity/5*mainMenuCtrl.footStepV;
                     stepDelay = 0;
                     if (!isProne)
                     {
                         footStep.Play();
                     }
-                    Imposter.HearPlayer(footStep.volume);
+                    Imposter.HearPlayer(velocity/5);
                 }
             }
         }

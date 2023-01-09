@@ -4440,13 +4440,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2004032685}
-  m_LocalRotation: {x: -0, y: -0.9354441, z: 0, w: -0.3534747}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 20, y: 3, z: -20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: -221.4, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2004032689
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4526,6 +4526,7 @@ MonoBehaviour:
   musValue: {fileID: 97105418}
   musicSources:
   - {fileID: 2004032691}
+  - {fileID: 2004032693}
   footStepValue: {fileID: 430809133}
 --- !u!82 &2004032691
 AudioSource:

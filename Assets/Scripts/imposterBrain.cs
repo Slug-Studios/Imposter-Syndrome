@@ -139,9 +139,9 @@ public class imposterBrain : MonoBehaviour
 
         if (hearchance <= (float)Random.Range(100, 0))
         {
-            float RandX = (Mathf.Clamp(distance, 0, Random.Range(10, 110)) - 10);
-            float RandY = (Mathf.Clamp(distance, 0, Random.Range(10, 110)) - 10);
-            Vector3 potentialTarget = player.position + new Vector3(RandX - RandX/2,0,RandY - RandY/2);
+            float RandX = Random.Range(0, Mathf.Clamp(distance - 10, 0, 100));
+            float RandY = Random.Range(0, Mathf.Clamp(distance - 10, 0, 100));
+            Vector3 potentialTarget = player.position + new Vector3(RandX - RandX/2,0, RandY - RandY / 2);
             if (target == null)
             {
                 target = new GameObject().transform;

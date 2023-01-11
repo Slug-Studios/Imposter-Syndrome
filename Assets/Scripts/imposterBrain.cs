@@ -5,9 +5,7 @@ using UnityEngine;
 public class imposterBrain : MonoBehaviour
 {
     Grid grid;
-    public Transform player;
-    private Transform target;
-    private List<Node> Path;
+    Pathfinder pathfinder;
     private float speed;
     public float wanderSpeed;
     public float chaseSpeed;
@@ -22,6 +20,7 @@ public class imposterBrain : MonoBehaviour
     void Awake()
     {
         grid = GetComponent<Grid>();
+        pathfinder = GetComponent<Pathfinder>();
     }
     private void Start()
     {
@@ -31,7 +30,6 @@ public class imposterBrain : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Look(0);
 
         //different states that his movement can be in
         switch (seekPhase)
@@ -41,29 +39,29 @@ public class imposterBrain : MonoBehaviour
                 speed = chaseSpeed;
                 if (Look(80)) //if it sees the player it updates his position
                 {
-                    if (target == null)
+                    if (pathfinder.target == null)
                     {
-                        target = new GameObject("target").transform;
+                        pathfinder.target = new GameObject("target").transform;
                     }
-                    target.position = player.position;
+                    pathfinder.target.position = pathfinder.player.position;
                 }
-                if (target != null)
+                if (pathfinder.target != null)
                 {
                     //Run Pathfinding
-                    FindPath(transform.position, target.position);
+                    pathfinder.FindPath(transform.position, pathfinder.target.position);
                 }
                 if (Physics.CheckBox(transform.position, new Vector3(1.5f,10,1.5f), transform.rotation, playerMask))
                 {
                     Debug.Log("GOT YOU(IMP)");
                     seekPhase = 0;
                     StartCoroutine("killAnimation");
-                } else if (Path != null && target != null && Path[0].offsetFromMainParent != null && Mathf.Sqrt(Mathf.Pow(ImpRigigbody.velocity.x, 2) + Mathf.Pow(ImpRigigbody.velocity.z, 2)) <= speed)
+                } else if (pathfinder.Path != null && pathfinder.target != null && pathfinder.Path[0].offsetFromMainParent != null && Mathf.Sqrt(Mathf.Pow(ImpRigigbody.velocity.x, 2) + Mathf.Pow(ImpRigigbody.velocity.z, 2)) <= speed)
                 {
-                    transform.rotation = Quaternion.Euler(0, Mathf.Atan2(Path[0].offsetFromMainParent.x, Path[0].offsetFromMainParent.z) * Mathf.Rad2Deg + 180, 0);
+                    transform.rotation = Quaternion.Euler(0, Mathf.Atan2(pathfinder.Path[0].offsetFromMainParent.x, pathfinder.Path[0].offsetFromMainParent.z) * Mathf.Rad2Deg + 180, 0);
                     ImpRigigbody.AddRelativeForce(Vector3.forward * speed * Time.deltaTime);
                     
                 }
-                if (target == null) //if it looses track of the player, spin around for a bit, if nothing still; swap to wandering
+                if (pathfinder.target == null) //if it looses track of the player, spin around for a bit, if nothing still; swap to wandering
                 {
                     seekPhase = 3;
                 }
@@ -73,7 +71,7 @@ public class imposterBrain : MonoBehaviour
                     time1 = time1 + Time.deltaTime;
                     if (time1 >= 2)
                     {
-                        Destroy(target.gameObject);
+                        Destroy(pathfinder.target.gameObject);
                     }
                 }
                 else
@@ -87,20 +85,20 @@ public class imposterBrain : MonoBehaviour
                 {
                     StartCoroutine("SeesPlayer");
                 }
-                if (target != null)
+                if (pathfinder.target != null)
                 {
-                    FindPath(transform.position, target.position);
+                    pathfinder.FindPath(transform.position, pathfinder.target.position);
                 }
-                if (Path != null && target != null && Path[0].offsetFromMainParent != null && Mathf.Sqrt(Mathf.Pow(ImpRigigbody.velocity.x, 2) + Mathf.Pow(ImpRigigbody.velocity.z, 2)) <= speed)
+                if (pathfinder.Path != null && pathfinder.target != null && pathfinder.Path[0].offsetFromMainParent != null && Mathf.Sqrt(Mathf.Pow(ImpRigigbody.velocity.x, 2) + Mathf.Pow(ImpRigigbody.velocity.z, 2)) <= speed)
                 {
-                    transform.rotation = Quaternion.Euler(0, Mathf.Atan2(Path[0].offsetFromMainParent.x, Path[0].offsetFromMainParent.z) * Mathf.Rad2Deg + 180, 0);
+                    transform.rotation = Quaternion.Euler(0, Mathf.Atan2(pathfinder.Path[0].offsetFromMainParent.x, pathfinder.Path[0].offsetFromMainParent.z) * Mathf.Rad2Deg + 180, 0);
                     ImpRigigbody.AddRelativeForce(Vector3.forward * speed * Time.deltaTime);
                 }
-                if (time >= 0 || target == null) // every 10 seconds or if the target is null, find a new path
+                if (time >= 0 || pathfinder.target == null) // every 10 seconds or if the target is null, find a new path
                 {
                     time = -10;
-                    target = new GameObject("target").transform;
-                    target.position = transform.position + new Vector3(Random.Range(-50, 50), 0, Random.Range(-50,50));
+                    pathfinder.target = new GameObject("target").transform;
+                    pathfinder.target.position = transform.position + new Vector3(Random.Range(-50, 50), 0, Random.Range(-50,50));
                 }
                 time = time +Time.deltaTime;
                 //if velocity is 0 for 1 second, make target null
@@ -109,7 +107,7 @@ public class imposterBrain : MonoBehaviour
                     time1 = time1 + Time.deltaTime;
                     if (time1 >= 1)
                     {
-                        Destroy(target.gameObject);
+                        Destroy(pathfinder.target.gameObject);
                     }
                 }
                 else
@@ -134,21 +132,21 @@ public class imposterBrain : MonoBehaviour
     }
     public void HearPlayer(float playerNoise)
     {
-        float distance = (Mathf.Abs(Mathf.Sqrt(Mathf.Pow(player.position.x - transform.position.x, 2) + Mathf.Pow(player.position.z - transform.position.z, 2))));
+        float distance = (Mathf.Abs(Mathf.Sqrt(Mathf.Pow(pathfinder.player.position.x - transform.position.x, 2) + Mathf.Pow(pathfinder.player.position.z - transform.position.z, 2))));
         float hearchance = Mathf.Clamp01(playerNoise / distance -0.01f)*100f;
 
         if (hearchance <= (float)Random.Range(100, 0))
         {
             float RandX = Random.Range(0, Mathf.Clamp(distance - 10, 0, 100));
             float RandY = Random.Range(0, Mathf.Clamp(distance - 10, 0, 100));
-            Vector3 potentialTarget = player.position + new Vector3(RandX - RandX/2,0, RandY - RandY / 2);
-            if (target == null)
+            Vector3 potentialTarget = pathfinder.player.position + new Vector3(RandX - RandX/2,0, RandY - RandY / 2);
+            if (pathfinder.target == null)
             {
-                target = new GameObject().transform;
-                target.position = potentialTarget;
+                pathfinder.target = new GameObject().transform;
+                pathfinder.target.position = potentialTarget;
             } else
             {
-                target.position = potentialTarget;
+                pathfinder.target.position = potentialTarget;
             }
         }
     }
@@ -157,11 +155,11 @@ public class imposterBrain : MonoBehaviour
     {
         //Raycast at player, if can detect the player within a certain angle, output true, otherwise output false
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, player.position - transform.position, out hit, 100f))
+        if (Physics.Raycast(transform.position, pathfinder.player.position - transform.position, out hit, 100f))
         {
             if (hit.collider.GetComponent<playerController>() != null)
             {
-                float angle = Mathf.Atan2(transform.position.x - player.position.x, transform.position.z - player.position.z) * Mathf.Rad2Deg - transform.rotation.eulerAngles.y + 180;
+                float angle = Mathf.Atan2(transform.position.x - pathfinder.player.position.x, transform.position.z - pathfinder.player.position.z) * Mathf.Rad2Deg - transform.rotation.eulerAngles.y + 180;
 
                 //correct the angle
                 if (angle > 180)
@@ -181,7 +179,7 @@ public class imposterBrain : MonoBehaviour
     IEnumerator SeesPlayer()
     {
         seekPhase = 0;
-        transform.rotation = Quaternion.Euler(0, Mathf.Atan2(player.transform.position.x, player.position.z) * Mathf.Rad2Deg + 90, 0);
+        transform.rotation = Quaternion.Euler(0, Mathf.Atan2(pathfinder.player.transform.position.x, pathfinder.player.position.z) * Mathf.Rad2Deg + 90, 0);
         yield return new WaitForSeconds(1);
         seekPhase = 1;
         time = 0;
@@ -191,101 +189,12 @@ public class imposterBrain : MonoBehaviour
     {
         ImpRigigbody.velocity = Vector3.zero;
         ImpRigigbody.angularVelocity = Vector3.zero;
-        player.GetComponent<playerController>().DeathAnim(transform);
+        pathfinder.player.GetComponent<playerController>().DeathAnim(transform, Vector3.back * 2, Quaternion.Euler(0,0,0));
         MainMusic.volume = mainMenuCtrl.entityV/4;
         yield return new WaitForSeconds(1);
         KillSound.Play();
         MainMusic.Stop();
-        player.GetComponent<playerController>().Death(0);
-    }
-
-    //funky pathfinding, most of this ain't mine lmfao
-    void FindPath(Vector3 startPos, Vector3 targetPos)
-    {
-        Node startNode = grid.NodeFromWorldPoint(startPos);
-        Node targetNode = grid.NodeFromWorldPoint(targetPos);
-
-        if (startNode == targetNode)
-        {
-            Destroy(target.gameObject);
-            return;
-        }
-        List<Node> openSet = new List<Node>();
-        HashSet<Node> closedSet = new HashSet<Node>();
-        openSet.Add(startNode);
-        while(openSet.Count > 0)
-        {
-
-            Node currentNode = openSet[0];
-            for (int i = 0; i < openSet.Count; i++)
-            {
-                if (openSet[i].fCost < currentNode.fCost || openSet[i].fCost == currentNode.fCost && openSet[i].hCost < currentNode.hCost)
-                {
-                    currentNode = openSet[i];
-                }
-            }
-
-            openSet.Remove(currentNode);
-            closedSet.Add(currentNode);
-
-            if (currentNode == targetNode)
-            {
-                RetracePath(startNode, targetNode);
-                return;
-            }
-
-            foreach (Node neighbor in grid.GetNeighBours(currentNode))
-            {
-                if (!neighbor.walkable || closedSet.Contains(neighbor))
-                {
-                    continue;
-                }
-
-                int newMovementCostToNeighbor = currentNode.gCost + GetDistance(currentNode, neighbor);
-
-                if (newMovementCostToNeighbor < neighbor.gCost || !openSet.Contains(neighbor))
-                {
-                    neighbor.gCost = newMovementCostToNeighbor;
-                    neighbor.hCost = GetDistance(neighbor, targetNode);
-                    neighbor.parent = currentNode;
-
-                    if (!openSet.Contains(neighbor))
-                    {
-                        openSet.Add(neighbor);
-                    }
-                }
-            }
-
-        }
-    }
-
-    void RetracePath(Node startNode, Node endNode)
-    {
-        List<Node> path = new List<Node>();
-        Node currentNode = endNode;
-
-        while (currentNode != startNode)
-        {
-            path.Add(currentNode);
-            currentNode = currentNode.parent;
-        }
-        path.Reverse();
-        Path = path;
-        grid.path = path;
-    }
-    
-    int GetDistance(Node NodeA, Node NodeB)
-    {
-        int dstX = Mathf.Abs(NodeA.gridX - NodeB.gridX);
-        int dstY = Mathf.Abs(NodeA.gridY - NodeB.gridY);
-        if (dstX > dstY)
-        {
-            return 14 * dstY + 10 * (dstX - dstY);
-        }
-        else
-        {
-            return 14 * dstX + 10 * (dstY - dstX);
-        }
+        pathfinder.player.GetComponent<playerController>().Death(0);
     }
 }
 

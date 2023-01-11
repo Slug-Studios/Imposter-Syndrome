@@ -18,6 +18,7 @@ public class playerController : MonoBehaviour
     private bool canMove;
     public Canvas deathScreen;
     public Image ImpFoundYou;
+    public Image ShrekFoundYou;
     public GameObject DeathUI;
     private bool dead;
     private int killer;
@@ -26,6 +27,7 @@ public class playerController : MonoBehaviour
     public AudioSource footStep;
     private float stepDelay;
     public imposterBrain Imposter;
+    public shrekBrain Shrek;
 
     // Start is called before the first frame update
     void Start()
@@ -110,17 +112,27 @@ public class playerController : MonoBehaviour
                     {
                         footStep.Play();
                     }
-                    Imposter.HearPlayer(velocity/5);
+                    if (Imposter != null)
+                    {
+                        Imposter.HearPlayer(velocity / 5);
+                    }
+                    if (Shrek != null)
+                    {
+                        Shrek.HearPlayer(velocity / 5);
+                    }
                 }
             }
         }
-        //if dead, fad in the death screen
+        //if dead, fade in the death screen
         if (dead)
         {
             switch (killer)
             {
                 case 0: //case 0, imposter
                     ImpFoundYou.color = new Color(255, 255, 255, time-1.5f);
+                    break;
+                case 1:// case 1, shrek
+                    ShrekFoundYou.color = new Color(255, 255, 255, time - 1.5f);
                     break;
             }
             time = time + Time.deltaTime/2;
@@ -132,17 +144,22 @@ public class playerController : MonoBehaviour
                     case 0:
                         DeathUI.GetComponent<Text>().text = "Ejected";
                         break;
+                    case 1:
+                        DeathUI.GetComponent<Text>().text = "Shreked";
+                        break;
                 }
             }
         }
     }
-    public void DeathAnim(Transform Killer)
+    public void DeathAnim(Transform Killer, Vector3 Offset, Quaternion OffsetRotation)
     {
         menuUp = false;
         canMove = false;
         GetComponent<Rigidbody>().velocity = Vector3.zero;
-        transform.rotation = Quaternion.Euler(transform.rotation.x, Mathf.Atan2(transform.position.x - Killer.position.x, transform.position.z - Killer.position.z) * Mathf.Rad2Deg + 180, transform.rotation.z);
-        transform.Translate(Vector3.back * 2, transform);
+        //transform.rotation = Quaternion.Euler(transform.rotation.x, Mathf.Atan2(transform.position.x - Killer.position.x, transform.position.z - Killer.position.z) * Mathf.Rad2Deg + 180, transform.rotation.z);
+        transform.parent = Killer;
+        transform.localRotation = OffsetRotation;
+        transform.localPosition = Offset;
         
     }
     public void Death(int Killer)

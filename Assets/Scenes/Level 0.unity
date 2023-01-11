@@ -483,7 +483,7 @@ MonoBehaviour:
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
-  m_ScreenMatchMode: 1
+  m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
@@ -837,7 +837,7 @@ MonoBehaviour:
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
-  m_ScreenMatchMode: 1
+  m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
@@ -1422,7 +1422,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7988713355217791771, guid: d36ce87ed8b77c3449a1d279f7b0ef54, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -59.9
+      value: -60.9
       objectReference: {fileID: 0}
     - target: {fileID: 7988713355217791771, guid: d36ce87ed8b77c3449a1d279f7b0ef54, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1430,7 +1430,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7988713355217791771, guid: d36ce87ed8b77c3449a1d279f7b0ef54, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 81.2
+      value: 84.2
       objectReference: {fileID: 0}
     - target: {fileID: 7988713355217791771, guid: d36ce87ed8b77c3449a1d279f7b0ef54, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2244,7 +2244,8 @@ PrefabInstance:
       propertyPath: ShrekFoundYou
       value: 
       objectReference: {fileID: 754469811}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8768602017480398335, guid: 3932fa0333b286f4d84c33748caed83c, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 3932fa0333b286f4d84c33748caed83c, type: 3}
 --- !u!1001 &6174579790474050833
 PrefabInstance:

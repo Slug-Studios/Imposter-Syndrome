@@ -189,7 +189,7 @@ public class imposterBrain : MonoBehaviour
     {
         ImpRigigbody.velocity = Vector3.zero;
         ImpRigigbody.angularVelocity = Vector3.zero;
-        pathfinder.player.GetComponent<playerController>().DeathAnim(transform, Vector3.forward * 2, Quaternion.Euler(0,0,0));
+        pathfinder.player.GetComponent<playerController>().DeathAnim(transform, new Vector3(0,0.75f,1), Quaternion.Euler(0,180,0));
         MainMusic.volume = mainMenuCtrl.entityV/4;
         yield return new WaitForSeconds(1);
         KillSound.Play();

@@ -19,8 +19,12 @@ public class playerController : MonoBehaviour
     public Canvas deathScreen;
     public Image ImpFoundYou;
     public Image ShrekFoundYou;
+    public Image QuandaleFoundYouA;
+    public Image QuandaleFoundYouB;
+    public Image QuandaleFoundYouC;
     public GameObject DeathUI;
-    private bool dead;
+    public Text DeathText;
+    public bool dead;
     private int killer;
     private float time;
     public AudioSource Ambience;
@@ -28,6 +32,13 @@ public class playerController : MonoBehaviour
     private float stepDelay;
     public imposterBrain Imposter;
     public shrekBrain Shrek;
+    public quandaleBrain QuandaleA;
+    public quandaleBrain QuandaleB;
+    public quandaleBrain QuandaleC;
+    public Slider staminaBar;
+    public float stamina;
+    private float sprintKey;
+    public Canvas UICanvas;
 
     // Start is called before the first frame update
     void Start()
@@ -45,9 +56,35 @@ public class playerController : MonoBehaviour
         //Set volume from values
         Ambience.volume = mainMenuCtrl.ambientV;
 
-        
+        if (menuUp || dead)
+        {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+        } else
+        {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+
         if (canMove)
         {
+            //drain stamina when sprinting, if stamina is 0 don't allow sprint
+            sprintKey = Input.GetAxis("Sprint");
+            if (sprintKey > 0 && !isProne)
+            {
+                if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
+                {
+                    if (staminaBar.value <= 0)
+                    {
+                        sprintKey = 0;
+                    }
+                    staminaBar.value -= Time.deltaTime / stamina;
+                }
+            } else
+            {
+                staminaBar.value += Time.deltaTime / (stamina * 1.5f);
+            }
+
             //Toggle menuUp if the esc key is pressed
             if (Input.GetKeyDown("escape"))
             {
@@ -75,7 +112,7 @@ public class playerController : MonoBehaviour
                 {
                     Physics.mass = 0.01f;
                     Physics.drag = 10;
-                    Physics.AddRelativeForce(new Vector3(speed * Time.deltaTime * Input.GetAxis("Horizontal") * (Input.GetAxis("Sprint") + 1.5f), 0, speed * Time.deltaTime * Input.GetAxis("Vertical") * (Input.GetAxis("Sprint") + 2f)));
+                    Physics.AddRelativeForce(new Vector3(speed * Time.deltaTime * Input.GetAxis("Horizontal") * (sprintKey + 1.5f), 0, speed * Time.deltaTime * Input.GetAxis("Vertical") * (sprintKey + 2f)));
                 }
                 transform.Rotate(Vector3.up, rotSpeed * Time.deltaTime * Input.GetAxis("Mouse X"));
 
@@ -120,6 +157,18 @@ public class playerController : MonoBehaviour
                     {
                         Shrek.HearPlayer(velocity / 5);
                     }
+                    if (QuandaleA != null)
+                    {
+                        QuandaleA.HearPlayer(velocity / 5);
+                    }
+                    if (QuandaleB != null)
+                    {
+                        QuandaleB.HearPlayer(velocity / 5);
+                    }
+                    if (QuandaleC != null)
+                    {
+                        QuandaleC.HearPlayer(velocity / 5);
+                    }
                 }
             }
         }
@@ -134,6 +183,15 @@ public class playerController : MonoBehaviour
                 case 1:// case 1, shrek
                     ShrekFoundYou.color = new Color(255, 255, 255, time - 1.5f);
                     break;
+                case 2:// case 2, quandaleA
+                    QuandaleFoundYouA.color = new Color(255, 255, 255, time - 1.5f);
+                    break;
+                case 3:// case 3, quandaleB
+                    QuandaleFoundYouB.color = new Color(255, 255, 255, time - 1.5f);
+                    break;
+                case 4:// case 4, quandaleC
+                    QuandaleFoundYouC.color = new Color(255, 255, 255, time - 1.5f);
+                    break;
             }
             time = time + Time.deltaTime/2;
             if (time >= 3.5f)
@@ -142,10 +200,19 @@ public class playerController : MonoBehaviour
                 switch (killer)
                 {
                     case 0:
-                        DeathUI.GetComponent<Text>().text = "Ejected";
+                        DeathText.text = "Ejected";
                         break;
                     case 1:
-                        DeathUI.GetComponent<Text>().text = "Shreked";
+                        DeathText.text = "Shreked";
+                        break;
+                    case 2:
+                        DeathText.text = "Quandaled";
+                        break;
+                    case 3:
+                        DeathText.text = "Quandaled";
+                        break;
+                    case 4:
+                        DeathText.text = "Quandaled";
                         break;
                 }
             }
@@ -153,6 +220,12 @@ public class playerController : MonoBehaviour
     }
     public void DeathAnim(Transform Killer, Vector3 Offset, Quaternion OffsetRotation)
     {
+        QuandaleA.seekPhase = 0;
+        QuandaleB.seekPhase = 0;
+        QuandaleC.seekPhase = 0;
+        Shrek.seekPhase = 0;
+        Imposter.seekPhase = 0;
+        UICanvas.enabled = false;
         menuUp = false;
         canMove = false;
         GetComponent<Rigidbody>().velocity = Vector3.zero;

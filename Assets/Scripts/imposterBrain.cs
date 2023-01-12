@@ -118,7 +118,7 @@ public class imposterBrain : MonoBehaviour
                 break;
             case 3: //3, search(for when it looses track of the player)
                 time = time + Time.deltaTime;
-                transform.rotation = Quaternion.Euler(0, transform.rotation.y + 90 * Time.deltaTime, 0);
+                transform.Rotate(Vector3.up, 90 * Time.deltaTime);
                 if (time >= 4.5)
                 {
                     seekPhase = 2;

@@ -40,6 +40,14 @@ public class shrekBrain : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // if the player dies, stop playing sound
+        if (pathfinder.player.GetComponent<playerController>().dead)
+        {
+            Footstep.volume = 0;
+            KillSound.volume = 0;
+            WhatDoingSwamp.volume = 0;
+        }
+
         //play animations depending on velocity
         if (seekPhase != 0)
         {
@@ -155,7 +163,7 @@ public class shrekBrain : MonoBehaviour
                 break;
             case 3: //3, search(for when it looses track of the player)
                 time = time + Time.deltaTime;
-                transform.rotation = Quaternion.Euler(0, transform.rotation.y + 90 * Time.deltaTime, 0);
+                transform.Rotate(Vector3.up, 90 * Time.deltaTime);
                 if (time >= 4.5)
                 {
                     seekPhase = 2;

@@ -23,7 +23,10 @@ public class mainMenuCtrl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        footStepValue.value = footStepV;
+        entValue.value = entityV;
+        ambValue.value = ambientV;
+        musValue.value = musicV;
     }
 
     // Update is called once per frame
@@ -61,5 +64,9 @@ public class mainMenuCtrl : MonoBehaviour
     {
         musicV = musValue.value;
         musicSources[1].volume = musicV;
+    }
+    public void FootSlider()
+    {
+        footStepV = footStepValue.value;
     }
 }

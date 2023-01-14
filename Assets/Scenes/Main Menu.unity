@@ -1184,7 +1184,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2004032690}
         m_TargetAssemblyTypeName: mainMenuCtrl, Assembly-CSharp
-        m_MethodName: MusSlider
+        m_MethodName: FootSlider
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

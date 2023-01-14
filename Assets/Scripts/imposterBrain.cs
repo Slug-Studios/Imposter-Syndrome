@@ -30,7 +30,11 @@ public class imposterBrain : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        // if the player dies, stop playing sound
+        if (pathfinder.player.GetComponent<playerController>().dead)
+        {
+            MainMusic.volume = 0;
+        }
         //different states that his movement can be in
         switch (seekPhase)
         {

@@ -47,15 +47,13 @@ public class playerController : MonoBehaviour
         Physics = GetComponent<Rigidbody>();
         canMove = true;
         menuUp = false;
+        //Set volume from values
+        Ambience.volume = mainMenuCtrl.ambientV;
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        //Set volume from values
-        Ambience.volume = mainMenuCtrl.ambientV;
-
         if (menuUp || dead)
         {
             Cursor.visible = true;

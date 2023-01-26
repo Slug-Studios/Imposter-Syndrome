@@ -22,6 +22,7 @@ public class playerController : MonoBehaviour
     public Image QuandaleFoundYouA;
     public Image QuandaleFoundYouB;
     public Image QuandaleFoundYouC;
+    public Image HamoodFoundYou;
     public GameObject DeathUI;
     public Text DeathText;
     public bool dead;
@@ -135,7 +136,7 @@ public class playerController : MonoBehaviour
                 menu.enabled = true;
             }
             float velocity = Mathf.Sqrt(Mathf.Pow(Physics.velocity.x, 2) + Mathf.Pow(Physics.velocity.z, 2));
-            if (velocity > 0) //play footsteps dependant on speed, also notify imposter about them
+            if (velocity > 0) //play footsteps dependant on speed, also notify all entities about them
             {
                 velocity = Mathf.Clamp(velocity, 2, 10)/2;
                 stepDelay = stepDelay + Time.deltaTime;
@@ -190,6 +191,9 @@ public class playerController : MonoBehaviour
                 case 4:// case 4, quandaleC
                     QuandaleFoundYouC.color = new Color(255, 255, 255, time - 1.5f);
                     break;
+                case 5:// case 5, hamood habibi
+                    HamoodFoundYou.color = new Color(255, 255, 255, time - 1.5f);
+                    break;
             }
             time = time + Time.deltaTime/2;
             if (time >= 3.5f)
@@ -204,13 +208,16 @@ public class playerController : MonoBehaviour
                         DeathText.text = "Shreked";
                         break;
                     case 2:
-                        DeathText.text = "Quandaled";
+                        DeathText.text = "Dingled";
                         break;
                     case 3:
-                        DeathText.text = "Quandaled";
+                        DeathText.text = "Dingled";
                         break;
                     case 4:
-                        DeathText.text = "Quandaled";
+                        DeathText.text = "Dingled";
+                        break;
+                    case 5:
+                        DeathText.text = "Arabic";
                         break;
                 }
             }

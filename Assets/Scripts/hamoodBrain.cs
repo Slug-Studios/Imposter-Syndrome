@@ -55,7 +55,7 @@ public class hamoodBrain : MonoBehaviour
             HRigidbody.angularVelocity = Vector3.zero;
             animator.runtimeAnimatorController = Scream;
             mainSound.clip = screamClip;
-            mainSound.loop = false;
+            mainSound.loop = false; 
             mainSound.Play();
             Player.GetComponent<playerController>().DeathAnim(transform, new Vector3(0, 2.5f, 1), Quaternion.Euler(-20, 180, 0));
             yield return new WaitForSeconds(2);

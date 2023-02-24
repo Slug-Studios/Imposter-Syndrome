@@ -28,6 +28,7 @@ public class RoomSpawner : MonoBehaviour
         var endY = (int)Random.Range(1-maxSize, maxSize-4)*spread;
         roomGen = Instantiate(endRoom, new Vector3(endX, 0, endY), transform.rotation);
         roomGen.transform.RotateAround(new Vector3(endX+spread*(float)1.5, 0, endY+spread*(float)1.5), Vector3.down, 0);
+        radarScript.target = roomGen.transform.position;
         //Make sure nothing else generates in the room
         for (int i = 0; i < 4; i = i + 1)
         {

@@ -22,7 +22,10 @@ public class Grid : MonoBehaviour
         foreach (Node n in grid)
         {
             n.worldPosition = transform.position - n.offsetFromMainParent;
-            n.walkable = !Physics.CheckSphere(n.worldPosition, nodeRaduis, unwalkableMask);
+            if (Vector3.Distance(player.position, transform.position) <= 100)
+            {
+                n.walkable = !Physics.CheckSphere(n.worldPosition, nodeRaduis, unwalkableMask);
+            }
         }
     }
 

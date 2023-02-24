@@ -40,11 +40,19 @@ public class playerController : MonoBehaviour
     public float stamina;
     private float sprintKey;
     public Canvas UICanvas;
+    public int upgradeEquiped;
+    private float speedBoost = 1;
+    private float BoostTime;
+    public Slider itemRemainingBar;
+    public GameObject itemRemainBarActive;
+    private Collider Pcollider;
+    public GameObject equipedItem;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        Pcollider = GetComponent<Collider>();
         Physics = GetComponent<Rigidbody>();
         canMove = true;
         menuUp = false;
@@ -67,21 +75,98 @@ public class playerController : MonoBehaviour
 
         if (canMove)
         {
-            //drain stamina when sprinting, if stamina is 0 don't allow sprint
-            sprintKey = Input.GetAxis("Sprint");
-            if (sprintKey > 0 && !isProne)
+            //Upgrades, in a switch statement
+            switch (upgradeEquiped)
             {
-                if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
-                {
-                    if (staminaBar.value <= 0)
+                case 0:
+                    break;
+                case 1: //Drip
+                    stamina = 20;
+                    speedBoost = 1.2f;
+                    break;
+                case 2: //"Milk"
+                    if (Input.GetKey(KeyCode.Mouse1))
                     {
-                        sprintKey = 0;
+                        Pcollider.enabled = false;
+                        speedBoost = 0.70f;
+                        BoostTime += Time.deltaTime;
+                        Debug.Log(BoostTime);
+                        if (BoostTime > 10)
+                        {
+                            BoostTime = 0;
+                            upgradeEquiped = 0;
+                            speedBoost = 1f;
+                            Pcollider.enabled = true;
+                            Destroy(equipedItem);
+                        }
                     }
-                    staminaBar.value -= Time.deltaTime / stamina;
+                    else
+                    {
+                        Pcollider.enabled = true;
+                        speedBoost = 1f;
+                    }
+                    break;
+                case 3: //Blue Substance
+                    if (Input.GetKey(KeyCode.Mouse1))
+                    {
+                        speedBoost = 2f;
+                        BoostTime += Time.deltaTime;
+                        Debug.Log(BoostTime);
+                        if (BoostTime > 30)
+                        {
+                            BoostTime = 0;
+                            upgradeEquiped = 0;
+                            speedBoost = 1;
+                            Destroy(equipedItem);
+                        }
+                    } else
+                    {
+                        speedBoost = 1;
+                    }
+                    break;
+                case 4: //Radar, the script is found elsewhere lmfao
+
+                    break;
+            }
+            //show upgrade remaining meter when boostTime is over 0
+            if (BoostTime > 0)
+            {
+                itemRemainBarActive.SetActive(true);
+                int max = 0;
+                switch (upgradeEquiped)
+                {
+                    case 2:
+                        max = 10;
+                        break;
+                    case 3:
+                        max = 30;
+                        break;
                 }
+                itemRemainingBar.maxValue = max;
+                itemRemainingBar.value = max-BoostTime;
             } else
             {
-                staminaBar.value += Time.deltaTime / (stamina * 1.5f);
+                itemRemainBarActive.SetActive(false);
+            }
+            //drain stamina when sprinting, if stamina is 0 don't allow sprint
+            sprintKey = Input.GetAxis("Sprint");
+            if (staminaBar != null)
+            {
+                if (sprintKey > 0 && !isProne)
+                {
+                    if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
+                    {
+                        if (staminaBar.value <= 0)
+                        {
+                            sprintKey = 0;
+                        }
+                        staminaBar.value -= Time.deltaTime / stamina;
+                    }
+                }
+                else
+                {
+                    staminaBar.value += Time.deltaTime / (stamina * 1.5f);
+                }
             }
 
             //Toggle menuUp if the esc key is pressed
@@ -111,7 +196,7 @@ public class playerController : MonoBehaviour
                 {
                     Physics.mass = 0.01f;
                     Physics.drag = 10;
-                    Physics.AddRelativeForce(new Vector3(speed * Time.deltaTime * Input.GetAxis("Horizontal") * (sprintKey + 1.5f), 0, speed * Time.deltaTime * Input.GetAxis("Vertical") * (sprintKey + 2f)));
+                    Physics.AddRelativeForce(new Vector3(speed * Time.deltaTime * Input.GetAxis("Horizontal") * (sprintKey + 1.5f) * speedBoost, 0, speed * Time.deltaTime * Input.GetAxis("Vertical") * (sprintKey + 2f) * speedBoost));
                 }
                 transform.Rotate(Vector3.up, rotSpeed * Time.deltaTime * Input.GetAxis("Mouse X"));
 

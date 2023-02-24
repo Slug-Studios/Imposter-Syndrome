@@ -24,6 +24,7 @@ public class quandaleBrain : MonoBehaviour
     public quandaleBrain Quandale2;
     public Vector3 KillOffset;
     public int type;
+    public CapsuleCollider Collider;
 
     // Start is called before the first frame update
     void Start()
@@ -37,11 +38,23 @@ public class quandaleBrain : MonoBehaviour
 
         // set volumes
         KillSound.volume = mainMenuCtrl.entityV;
+
+        Collider = GetComponent<CapsuleCollider>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        //if too far away, don't have collision
+        if (Vector3.Distance(pathfinder.player.position, transform.position) <= 100)
+        {
+            Collider.enabled = true;
+        }
+        else
+        {
+            Collider.enabled = false;
+        }
+        
         // if the player dies, stop playing sound
         if (pathfinder.player.GetComponent<playerController>().dead)
         {

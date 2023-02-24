@@ -16,6 +16,7 @@ public class imposterBrain : MonoBehaviour
     private float time;
     private float time1;
     private Rigidbody ImpRigigbody;
+    private CapsuleCollider Collider;
 
     void Awake()
     {
@@ -26,10 +27,20 @@ public class imposterBrain : MonoBehaviour
     {
         MainMusic.volume = mainMenuCtrl.entityV;
         ImpRigigbody = gameObject.GetComponent<Rigidbody>();
+        Collider = gameObject.GetComponent<CapsuleCollider>();
     }
     // Update is called once per frame
     void Update()
     {
+        //if too far away, don't have collision
+        if (Vector3.Distance(grid.player.position, transform.position) <= 100)
+        {
+            Collider.enabled = true;
+        } else
+        {
+            Collider.enabled = false;
+        }
+
         // if the player dies, stop playing sound
         if (pathfinder.player.GetComponent<playerController>().dead)
         {

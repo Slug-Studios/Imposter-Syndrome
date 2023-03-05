@@ -26,7 +26,7 @@ public class Grid : MonoBehaviour
             {
                 if (Vector3.Distance(player.position, transform.position) <= 100)
                 {
-                    n.walkable = !Physics.CheckSphere(n.worldPosition, nodeRaduis / 2, unwalkableMask);
+                    n.walkable = !Physics.CheckCapsule(n.worldPosition, n.worldPosition + Vector3.up * 0.01f, nodeRaduis, unwalkableMask);
                 }
                 else
                 {
@@ -102,7 +102,7 @@ public class Grid : MonoBehaviour
     public List<Node> path;
     void OnDrawGizmos()
     {
-        if (false)
+        if (true)
         {
             Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, 10, gridWorldSize.y));
 

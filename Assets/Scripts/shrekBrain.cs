@@ -47,7 +47,7 @@ public class shrekBrain : MonoBehaviour
             KillSound.volume = 0;
             WhatDoingSwamp.volume = 0;
         }
-
+         new Vector2();
         //play animations depending on velocity
         if (seekPhase != 0)
         {

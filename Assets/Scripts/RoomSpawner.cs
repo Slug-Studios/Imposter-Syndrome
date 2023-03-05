@@ -17,12 +17,57 @@ public class RoomSpawner : MonoBehaviour
     private bool genFail;
     private float LroomNum;
     private GameObject roomGen;
+    public List<GameObject> Entities;
+    public Transform player_;
+    public GameObject Walter;
+    public List<quandaleBrain> Quandles;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        
+
+        //generate entities
+
+        foreach (GameObject E in Entities)
+        {
+            int x = Random.Range(-600, 600);
+            int z = Random.Range(-600, 600);
+            if (x >= -300 && x <= 300 && z >= -300 && z <= 300)
+            {
+                if (x >= 0)
+                {
+                    x = 300;
+                } else if (x < 0)
+                {
+                    x = -300;
+                }
+            }
+            float y = E.transform.position.y;
+            Instantiate(E, new Vector3(x, y, z), Quaternion.identity);
+            E.GetComponent<Grid>().player = player_;
+            E.GetComponent<Pathfinder>().player = player_;
+            if (E.GetComponent<quandaleBrain>() != null)
+            {
+                Quandles.Add(E.GetComponent<quandaleBrain>());
+            }
+        }
+        // generate 4 walters
+        for (int i = 0; i <= 4; i++)
+        {
+            int x = Random.Range(-700, 700);
+            int z = Random.Range(-700, 700);
+            GameObject E = Instantiate(Walter, new Vector3(x, 0, z), Quaternion.identity);
+            E.GetComponent<walterBrain>().player = player_;
+        }
+        //link up all of the quandales
+        Quandles[0].Quandale1 = Quandles[1];
+        Quandles[0].Quandale2 = Quandles[2];
+        Quandles[1].Quandale1 = Quandles[0];
+        Quandles[1].Quandale2 = Quandles[2];
+        Quandles[2].Quandale1 = Quandles[0];
+        Quandles[2].Quandale2 = Quandles[1];
+
         //Generate the end room, then rotate it a random amount
         var endX = (int)Random.Range(1-maxSize, maxSize-4)*spread;
         var endY = (int)Random.Range(1-maxSize, maxSize-4)*spread;
@@ -113,5 +158,6 @@ public class RoomSpawner : MonoBehaviour
             //Make X higher to generate the next row
             distanceX = distanceX + spread;
         }
+        
     }
 }

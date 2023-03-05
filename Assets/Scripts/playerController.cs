@@ -47,6 +47,7 @@ public class playerController : MonoBehaviour
     public GameObject itemRemainBarActive;
     private Collider Pcollider;
     public GameObject equipedItem;
+    public Image Winscreen;
 
 
     // Start is called before the first frame update
@@ -85,7 +86,7 @@ public class playerController : MonoBehaviour
                     speedBoost = 1.2f;
                     break;
                 case 2: //"Milk"
-                    if (Input.GetKey(KeyCode.Mouse1))
+                    if (Input.GetKey(KeyCode.Mouse1) || Input.GetKey(KeyCode.E))
                     {
                         Pcollider.enabled = false;
                         speedBoost = 0.70f;
@@ -107,7 +108,7 @@ public class playerController : MonoBehaviour
                     }
                     break;
                 case 3: //Blue Substance
-                    if (Input.GetKey(KeyCode.Mouse1))
+                    if (Input.GetKey(KeyCode.Mouse1) || Input.GetKey(KeyCode.E))
                     {
                         speedBoost = 2f;
                         BoostTime += Time.deltaTime;
@@ -279,6 +280,9 @@ public class playerController : MonoBehaviour
                 case 5:// case 5, hamood habibi
                     HamoodFoundYou.color = new Color(255, 255, 255, time - 1.5f);
                     break;
+                case -1:// case -1, win
+                    Winscreen.color = new Color(255, 255, 255, time - 1.5f);
+                    break;
             }
             time = time + Time.deltaTime/2;
             if (time >= 3.5f)
@@ -303,6 +307,9 @@ public class playerController : MonoBehaviour
                         break;
                     case 5:
                         DeathText.text = "Arabic";
+                        break;
+                    case -1:
+                        DeathText.text = "";
                         break;
                 }
             }
@@ -329,6 +336,7 @@ public class playerController : MonoBehaviour
     {
         deathScreen.enabled = true;
         dead = true;
+        canMove=false;
         killer = Killer;
     }
     //Menu Button stuff

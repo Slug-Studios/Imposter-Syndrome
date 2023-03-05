@@ -25,18 +25,18 @@ public class quandaleBrain : MonoBehaviour
     public Vector3 KillOffset;
     public int type;
     public LayerMask Unwalkable;
-    private Grid grid;
+    private CapsuleCollider Collider;
 
     // Start is called before the first frame update
     void Start()
     {
         QuandaleRigidbody = GetComponent<Rigidbody>();
         pathfinder = GetComponent<Pathfinder>();
-        grid = GetComponent<Grid>();
         QuandaleAnimator = GetComponent<Animator>();
         QuandaleSound.volume = mainMenuCtrl.entityV;
         KillSound.volume = mainMenuCtrl.entityV;
         QuandaleAnimator.runtimeAnimatorController = null;
+        Collider = GetComponent<CapsuleCollider>();
 
         // set volumes
         KillSound.volume = mainMenuCtrl.entityV;
@@ -46,6 +46,14 @@ public class quandaleBrain : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //disable collider if too far away
+        if (Vector3.Distance(pathfinder.player.position, transform.position) <= 100f)
+        {
+            Collider.enabled = true;
+        } else
+        {
+            Collider.enabled = false;
+        }
         // if the player dies, stop playing sound
         if (pathfinder.player != null)
         {

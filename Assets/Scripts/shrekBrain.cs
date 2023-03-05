@@ -22,6 +22,7 @@ public class shrekBrain : MonoBehaviour
     public Transform armature;
     public AudioSource Footstep;
     public AudioSource WhatDoingSwamp;
+    private CapsuleCollider Collider;
     
     // Start is called before the first frame update
     void Start()
@@ -30,6 +31,7 @@ public class shrekBrain : MonoBehaviour
         pathfinder = GetComponent<Pathfinder>();
         ShrekAnimator = GetComponent<Animator>();
         ShrekAnimator.runtimeAnimatorController = null;
+        Collider = GetComponent<CapsuleCollider>();
 
         // set volumes
         WhatDoingSwamp.volume = mainMenuCtrl.entityV;
@@ -40,6 +42,15 @@ public class shrekBrain : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //disable collider if too far away
+        if (Vector3.Distance(pathfinder.player.position, transform.position) <= 100f)
+        {
+            Collider.enabled = true;
+        }
+        else
+        {
+            Collider.enabled = false;
+        }
         // if the player dies, stop playing sound
         if (pathfinder.player != null)
         {

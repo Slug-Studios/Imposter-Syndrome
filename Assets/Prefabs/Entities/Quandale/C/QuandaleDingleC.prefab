@@ -658,6 +658,7 @@ GameObject:
   - component: {fileID: 7779420615690777913}
   - component: {fileID: 7779420615690777909}
   - component: {fileID: 7779420615690777908}
+  - component: {fileID: -4269713188819846728}
   m_Layer: 0
   m_Name: QuandaleDingleC
   m_TagString: Untagged
@@ -723,7 +724,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 50
+  MaxDistance: 35
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -982,6 +983,20 @@ MonoBehaviour:
     m_Bits: 128
   gridWorldSize: {x: 99, y: 99}
   nodeRaduis: 1
+--- !u!136 &-4269713188819846728
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7779420615910159449}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 9.508371
+  m_Direction: 1
+  m_Center: {x: 0, y: 5.42, z: -0}
 --- !u!1 &7779420615921626088
 GameObject:
   m_ObjectHideFlags: 0

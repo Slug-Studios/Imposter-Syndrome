@@ -16,6 +16,7 @@ public class imposterBrain : MonoBehaviour
     private float time;
     private float time1;
     private Rigidbody ImpRigigbody;
+    private CapsuleCollider Collider;
 
     private void Start()
     {
@@ -23,10 +24,20 @@ public class imposterBrain : MonoBehaviour
         ImpRigigbody = gameObject.GetComponent<Rigidbody>();
         grid = GetComponent<Grid>();
         pathfinder = GetComponent<Pathfinder>();
+        Collider = GetComponent<CapsuleCollider>();
     }
     // Update is called once per frame
     void Update()
     {
+        //disable collider if too far away
+        if (Vector3.Distance(pathfinder.player.position, transform.position) <= 100f)
+        {
+            Collider.enabled = true;
+        }
+        else
+        {
+            Collider.enabled = false;
+        }
         // if the player dies, stop playing sound
         if (pathfinder.player != null)
         {

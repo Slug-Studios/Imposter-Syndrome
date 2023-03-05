@@ -2883,6 +2883,7 @@ MonoBehaviour:
   Player_: {fileID: 458841972}
   Walter: {fileID: 7975660953478790567, guid: 6fdf2291ed3b84d4aa9259589319d708, type: 3}
   Quandles: []
+  controller: {fileID: 963194229}
 --- !u!4 &1866907653
 Transform:
   m_ObjectHideFlags: 0
@@ -2907,7 +2908,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6309406232555614092, guid: c3bfc4d527ddb9443ae6cedc71ce58e5, type: 3}
       propertyPath: MaxDistance
-      value: 50
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 6309406232555614092, guid: c3bfc4d527ddb9443ae6cedc71ce58e5, type: 3}
       propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
@@ -2927,7 +2928,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6309406232555614095, guid: c3bfc4d527ddb9443ae6cedc71ce58e5, type: 3}
       propertyPath: timeToAcc
-      value: 1800
+      value: 3600
       objectReference: {fileID: 0}
     - target: {fileID: 6309406232555614095, guid: c3bfc4d527ddb9443ae6cedc71ce58e5, type: 3}
       propertyPath: startSpeed

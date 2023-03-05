@@ -349,6 +349,7 @@ GameObject:
   - component: {fileID: 3102680676905713748}
   - component: {fileID: 3102680676905713747}
   - component: {fileID: 3102680676905713744}
+  - component: {fileID: 5558631416970701759}
   m_Layer: 0
   m_Name: QuandaleDingleA
   m_TagString: Untagged
@@ -516,7 +517,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 50
+  MaxDistance: 35
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -679,6 +680,20 @@ MonoBehaviour:
   Unwalkable:
     serializedVersion: 2
     m_Bits: 0
+--- !u!136 &5558631416970701759
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3102680677018720295}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 9.508371
+  m_Direction: 1
+  m_Center: {x: 0, y: 5.42, z: -0}
 --- !u!1 &3102680677020948091
 GameObject:
   m_ObjectHideFlags: 0

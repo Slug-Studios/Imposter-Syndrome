@@ -2880,7 +2880,7 @@ MonoBehaviour:
   - {fileID: 7779420615910159449, guid: b34fcf49c682cda4d92bf79f62eafb3a, type: 3}
   - {fileID: 2779957232450771175, guid: d36ce87ed8b77c3449a1d279f7b0ef54, type: 3}
   - {fileID: 2455584773868693516, guid: 6566dea15a16f364fad6fd9d122e3840, type: 3}
-  player_: {fileID: 458841972}
+  Player_: {fileID: 458841972}
   Walter: {fileID: 7975660953478790567, guid: 6fdf2291ed3b84d4aa9259589319d708, type: 3}
   Quandles: []
 --- !u!4 &1866907653

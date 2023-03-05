@@ -41,11 +41,14 @@ public class shrekBrain : MonoBehaviour
     void Update()
     {
         // if the player dies, stop playing sound
-        if (pathfinder.player.GetComponent<playerController>().dead)
+        if (pathfinder.player != null)
         {
-            Footstep.volume = 0;
-            KillSound.volume = 0;
-            WhatDoingSwamp.volume = 0;
+            if (pathfinder.player.GetComponent<playerController>().dead)
+            {
+                Footstep.volume = 0;
+                KillSound.volume = 0;
+                WhatDoingSwamp.volume = 0;
+            }
         }
          new Vector2();
         //play animations depending on velocity

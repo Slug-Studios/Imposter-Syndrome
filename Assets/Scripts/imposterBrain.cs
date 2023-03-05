@@ -17,23 +17,23 @@ public class imposterBrain : MonoBehaviour
     private float time1;
     private Rigidbody ImpRigigbody;
 
-    void Awake()
-    {
-        grid = GetComponent<Grid>();
-        pathfinder = GetComponent<Pathfinder>();
-    }
     private void Start()
     {
         MainMusic.volume = mainMenuCtrl.entityV;
         ImpRigigbody = gameObject.GetComponent<Rigidbody>();
+        grid = GetComponent<Grid>();
+        pathfinder = GetComponent<Pathfinder>();
     }
     // Update is called once per frame
     void Update()
     {
         // if the player dies, stop playing sound
-        if (pathfinder.player.GetComponent<playerController>().dead)
+        if (pathfinder.player != null)
         {
-            MainMusic.volume = 0;
+            if (pathfinder.player.GetComponent<playerController>().dead)
+            {
+                MainMusic.volume = 0;
+            }
         }
         //different states that his movement can be in
         switch (seekPhase)
@@ -58,7 +58,7 @@ public class imposterBrain : MonoBehaviour
                 {
                     Debug.Log("GOT YOU(IMP)");
                     seekPhase = 0;
-                    StartCoroutine("killAnimation");
+                    StartCoroutine(killAnimation());
                 } else if (pathfinder.Path != null && pathfinder.target != null && pathfinder.Path[0].offsetFromMainParent != null && Mathf.Sqrt(Mathf.Pow(ImpRigigbody.velocity.x, 2) + Mathf.Pow(ImpRigigbody.velocity.z, 2)) <= speed)
                 {
                     transform.rotation = Quaternion.Euler(0, Mathf.Atan2(pathfinder.Path[0].offsetFromMainParent.x, pathfinder.Path[0].offsetFromMainParent.z) * Mathf.Rad2Deg + 180, 0);
@@ -159,24 +159,27 @@ public class imposterBrain : MonoBehaviour
     {
         //Raycast at player, if can detect the player within a certain angle, output true, otherwise output false
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, pathfinder.player.position - transform.position, out hit, 100f))
+        if (pathfinder.player != null)
         {
-            if (hit.collider.GetComponent<playerController>() != null)
+            if (Physics.Raycast(transform.position, pathfinder.player.position - transform.position, out hit, 100f))
             {
-                float angle = Mathf.Atan2(transform.position.x - pathfinder.player.position.x, transform.position.z - pathfinder.player.position.z) * Mathf.Rad2Deg - transform.rotation.eulerAngles.y + 180;
+                if (hit.collider.GetComponent<playerController>() != null)
+                {
+                    float angle = Mathf.Atan2(transform.position.x - pathfinder.player.position.x, transform.position.z - pathfinder.player.position.z) * Mathf.Rad2Deg - transform.rotation.eulerAngles.y + 180;
 
-                //correct the angle
-                if (angle > 180)
-                {
-                    angle = angle-360;
-                }
-                if (angle >= -Angle && angle <= Angle)
-                {
-                    return true;
+                    //correct the angle
+                    if (angle > 180)
+                    {
+                        angle = angle - 360;
+                    }
+                    if (angle >= -Angle && angle <= Angle)
+                    {
+                        return true;
+                    }
+
                 }
 
             }
-
         }
         return false;
     }

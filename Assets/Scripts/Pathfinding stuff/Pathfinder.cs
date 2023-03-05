@@ -8,7 +8,7 @@ public class Pathfinder : MonoBehaviour
     public Transform player;
     public Transform target;
     public List<Node> Path;
-    private void Awake()
+    private void Start()
     {
         grid = GetComponent<Grid>();
     }

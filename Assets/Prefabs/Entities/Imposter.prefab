@@ -1539,7 +1539,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wanderSpeed: 30
   chaseSpeed: 120
-  seekPhase: 2
+  seekPhase: 3
   MainMusic: {fileID: 2455584773868693750}
   KillSound: {fileID: 2455584773868693749}
   playerMask:

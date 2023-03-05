@@ -18,9 +18,10 @@ public class RoomSpawner : MonoBehaviour
     private float LroomNum;
     private GameObject roomGen;
     public List<GameObject> Entities;
-    public Transform player_;
+    public Transform Player_;
     public GameObject Walter;
     public List<quandaleBrain> Quandles;
+    public playerController controller;
 
 
     // Start is called before the first frame update
@@ -38,27 +39,40 @@ public class RoomSpawner : MonoBehaviour
                 if (x >= 0)
                 {
                     x = 300;
-                } else if (x < 0)
+                }
+                else if (x < 0)
                 {
                     x = -300;
                 }
             }
             float y = E.transform.position.y;
-            Instantiate(E, new Vector3(x, y, z), Quaternion.identity);
-            E.GetComponent<Grid>().player = player_;
-            E.GetComponent<Pathfinder>().player = player_;
-            if (E.GetComponent<quandaleBrain>() != null)
+            GameObject E_ = Instantiate(E, new Vector3(x, y, z), Quaternion.identity);
+            E_.GetComponent<Grid>().player = Player_.transform;
+            E_.GetComponent<Pathfinder>().player = Player_.transform;
+            if (E_.GetComponent<quandaleBrain>() != null)
             {
-                Quandles.Add(E.GetComponent<quandaleBrain>());
+                Quandles.Add(E_.GetComponent<quandaleBrain>());
+            }
+            //give the player a reference to all of em
+            if (E_.GetComponent<shrekBrain>() != null)
+            {
+                controller.Shrek = E_.GetComponent<shrekBrain>();
+            }
+            if (E_.GetComponent<imposterBrain>() != null)
+            {
+                controller.Imposter = E_.GetComponent<imposterBrain>();
             }
         }
+        controller.QuandaleA = Quandles[0];
+        controller.QuandaleB = Quandles[1];
+        controller.QuandaleC = Quandles[2];
         // generate 4 walters
-        for (int i = 0; i <= 4; i++)
+        for (int i = 0; i <= 3; i++)
         {
             int x = Random.Range(-700, 700);
             int z = Random.Range(-700, 700);
             GameObject E = Instantiate(Walter, new Vector3(x, 0, z), Quaternion.identity);
-            E.GetComponent<walterBrain>().player = player_;
+            E.GetComponent<walterBrain>().player = Player_;
         }
         //link up all of the quandales
         Quandles[0].Quandale1 = Quandles[1];
@@ -71,7 +85,7 @@ public class RoomSpawner : MonoBehaviour
         //Generate the end room, then rotate it a random amount
         var endX = (int)Random.Range(1-maxSize, maxSize-4)*spread;
         var endY = (int)Random.Range(1-maxSize, maxSize-4)*spread;
-        roomGen = Instantiate(endRoom, new Vector3(endX, 0, endY), transform.rotation);
+        roomGen = Instantiate(endRoom, new Vector3(endX, 0, endY), transform.rotation, transform);
         roomGen.transform.RotateAround(new Vector3(endX+spread*(float)1.5, 0, endY+spread*(float)1.5), Vector3.down, 0);
         radarScript.target = roomGen.transform.position;
         //Make sure nothing else generates in the room
@@ -109,7 +123,7 @@ public class RoomSpawner : MonoBehaviour
             // generate a room, rotate it, and ensure nothing else generates there if nothing is there, otherwise try again
             if (!genFail)
             {
-                roomGen = Instantiate(Lrooms[Random.Range(0, Lrooms.Count)], genPos, transform.rotation);
+                roomGen = Instantiate(Lrooms[Random.Range(0, Lrooms.Count)], genPos, transform.rotation, transform);
                 roomGen.transform.RotateAround(new Vector3(X + spread * (float)0.5, 0, Y + spread * (float)0.5), Vector3.down, 0);
 
                 //it isn't worth it to put 2 for loops for this I think
@@ -149,7 +163,7 @@ public class RoomSpawner : MonoBehaviour
                 // generate a room if nothing is there, otherwise move on
                 if (!genFail)
                 {
-                    Instantiate(rooms[Random.Range(0, rooms.Count)], genPos, Quaternion.Euler(new Vector3(0, 90 * Random.Range(0, 3), 0)));
+                    Instantiate(rooms[Random.Range(0, rooms.Count)], genPos, Quaternion.Euler(new Vector3(0, 90 * Random.Range(0, 3), 0)), transform);
                 }
                 //reset Fail check, move on to next row
                 genFail = false;

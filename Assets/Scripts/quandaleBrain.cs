@@ -47,10 +47,13 @@ public class quandaleBrain : MonoBehaviour
     void Update()
     {
         // if the player dies, stop playing sound
-        if (pathfinder.player.GetComponent<playerController>().dead)
+        if (pathfinder.player != null)
         {
-            QuandaleSound.volume = 0;
-            KillSound.volume = 0;
+            if (pathfinder.player.GetComponent<playerController>().dead)
+            {
+                QuandaleSound.volume = 0;
+                KillSound.volume = 0;
+            }
         }
 
         //play animations depending on velocity
@@ -118,12 +121,12 @@ public class quandaleBrain : MonoBehaviour
                     time1 = 0;
                 }
                 //notify the other quandales
-                if (Quandale1 != null && pathfinder.target != null)
+                if (Quandale1 != null && pathfinder.target != null && pathfinder != null)
                 {
                     Quandale1.pathfinder.target = pathfinder.target;
                     Quandale1.seekPhase = 1;
                 }
-                if (Quandale2 != null && pathfinder.target != null)
+                if (Quandale2 != null && pathfinder.target != null && Quandale2.pathfinder.target)
                 {
                     Quandale2.pathfinder.target = pathfinder.target;
                     Quandale2.seekPhase = 1;
@@ -132,7 +135,7 @@ public class quandaleBrain : MonoBehaviour
                 {
                     Debug.Log("GOT YOU(QUANDALE)");
                     seekPhase = 0;
-                    StartCoroutine("killAnimation");
+                    StartCoroutine(killAnimation());
                 } else if (pathfinder.Path != null && pathfinder.target != null && pathfinder.Path[0].offsetFromMainParent != null && Mathf.Sqrt(Mathf.Pow(QuandaleRigidbody.velocity.x, 2) + Mathf.Pow(QuandaleRigidbody.velocity.z, 2)) <= speed)
                 {
                     float targetAngle = Mathf.Atan2(pathfinder.Path[0].offsetFromMainParent.x, pathfinder.Path[0].offsetFromMainParent.z) * Mathf.Rad2Deg;

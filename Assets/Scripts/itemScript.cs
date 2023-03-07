@@ -30,6 +30,10 @@ public class itemScript : MonoBehaviour
             GameObject Item = Instantiate(SpawnedItem, other.transform.position, other.transform.rotation, other.transform);
             Item.transform.localPosition = SpawnedItem.transform.position;
             Item.transform.localRotation = SpawnedItem.transform.rotation;
+            if (Item.GetComponent<eatingItemScript>() != null)
+            {
+                Item.GetComponent<eatingItemScript>().player = other.GetComponent<playerController>();
+            }
             Spawner.Itempicked = true;
             Spawner.player.gameObject.GetComponent<playerController>().equipedItem = Item;
         }

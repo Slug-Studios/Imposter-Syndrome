@@ -41,11 +41,11 @@ public class playerController : MonoBehaviour
     private float sprintKey;
     public Canvas UICanvas;
     public int upgradeEquiped;
-    private float speedBoost = 1;
+    public float speedBoost = 1;
     private float BoostTime;
     public Slider itemRemainingBar;
     public GameObject itemRemainBarActive;
-    private Collider Pcollider;
+    public Collider Pcollider;
     public GameObject equipedItem;
     public Image Winscreen;
 
@@ -128,26 +128,6 @@ public class playerController : MonoBehaviour
                 case 4: //Radar, the script is found elsewhere lmfao
 
                     break;
-            }
-            //show upgrade remaining meter when boostTime is over 0
-            if (BoostTime > 0)
-            {
-                itemRemainBarActive.SetActive(true);
-                int max = 0;
-                switch (upgradeEquiped)
-                {
-                    case 2:
-                        max = 10;
-                        break;
-                    case 3:
-                        max = 30;
-                        break;
-                }
-                itemRemainingBar.maxValue = max;
-                itemRemainingBar.value = max-BoostTime;
-            } else
-            {
-                itemRemainBarActive.SetActive(false);
             }
             //drain stamina when sprinting, if stamina is 0 don't allow sprint
             sprintKey = Input.GetAxis("Sprint");

@@ -300,7 +300,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Spawner: {fileID: 0}
   upgrade: 2
-  SpawnedItem: {fileID: 3499258898206531060, guid: fb76a28b26e50a24cb4f8f6df284ff83, type: 3}
+  SpawnedItem: {fileID: 6769635202192150572, guid: fb76a28b26e50a24cb4f8f6df284ff83, type: 3}
 --- !u!65 &4671912454926287200
 BoxCollider:
   m_ObjectHideFlags: 0

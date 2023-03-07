@@ -17,6 +17,8 @@ public class mainMenuCtrl : MonoBehaviour
     public List<AudioSource> musicSources;
     public Slider footStepValue;
     public static float footStepV = 0.25f;
+    public Slider SFXValue;
+    public static float SFXV = 0.5f;
     
     
 
@@ -27,6 +29,7 @@ public class mainMenuCtrl : MonoBehaviour
         entValue.value = entityV;
         ambValue.value = ambientV;
         musValue.value = musicV;
+        SFXValue.value = SFXV;
     }
 
     // Update is called once per frame
@@ -68,5 +71,9 @@ public class mainMenuCtrl : MonoBehaviour
     public void FootSlider()
     {
         footStepV = footStepValue.value;
+    }
+    public void SFXSlider()
+    {
+        SFXV = SFXValue.value;
     }
 }

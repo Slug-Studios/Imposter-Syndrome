@@ -30,7 +30,7 @@ public class imposterBrain : MonoBehaviour
     void Update()
     {
         //disable collider if too far away
-        if (Vector3.Distance(pathfinder.player.position, transform.position) <= 100f)
+        if (Vector3.Distance(pathfinder.player.position, transform.position) <= 200f)
         {
             Collider.enabled = true;
         }

@@ -22,6 +22,8 @@ public class RoomSpawner : MonoBehaviour
     public GameObject Walter;
     public List<quandaleBrain> Quandles;
     public playerController controller;
+    private int EntSpawnMin = 500;
+    private int EntSpawnMax = 800;
 
 
     // Start is called before the first frame update
@@ -32,17 +34,17 @@ public class RoomSpawner : MonoBehaviour
 
         foreach (GameObject E in Entities)
         {
-            int x = Random.Range(-600, 600);
-            int z = Random.Range(-600, 600);
-            if (x >= -300 && x <= 300 && z >= -300 && z <= 300)
+            int x = Random.Range(-EntSpawnMax, EntSpawnMax);
+            int z = Random.Range(-EntSpawnMax, EntSpawnMax);
+            if (x >= -EntSpawnMin && x <= EntSpawnMin && z >= -EntSpawnMin && z <= EntSpawnMin)
             {
                 if (x >= 0)
                 {
-                    x = 300;
+                    x = EntSpawnMin;
                 }
                 else if (x < 0)
                 {
-                    x = -300;
+                    x = -EntSpawnMin;
                 }
             }
             float y = E.transform.position.y;

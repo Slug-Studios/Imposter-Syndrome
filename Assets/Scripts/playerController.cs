@@ -85,49 +85,6 @@ public class playerController : MonoBehaviour
                     stamina = 20;
                     speedBoost = 1.2f;
                     break;
-                case 2: //"Milk"
-                    if (Input.GetKey(KeyCode.Mouse1) || Input.GetKey(KeyCode.E))
-                    {
-                        Pcollider.enabled = false;
-                        speedBoost = 0.70f;
-                        BoostTime += Time.deltaTime;
-                        Debug.Log(BoostTime);
-                        if (BoostTime > 10)
-                        {
-                            BoostTime = 0;
-                            upgradeEquiped = 0;
-                            speedBoost = 1f;
-                            Pcollider.enabled = true;
-                            Destroy(equipedItem);
-                        }
-                    }
-                    else
-                    {
-                        Pcollider.enabled = true;
-                        speedBoost = 1f;
-                    }
-                    break;
-                case 3: //Blue Substance
-                    if (Input.GetKey(KeyCode.Mouse1) || Input.GetKey(KeyCode.E))
-                    {
-                        speedBoost = 2f;
-                        BoostTime += Time.deltaTime;
-                        Debug.Log(BoostTime);
-                        if (BoostTime > 30)
-                        {
-                            BoostTime = 0;
-                            upgradeEquiped = 0;
-                            speedBoost = 1;
-                            Destroy(equipedItem);
-                        }
-                    } else
-                    {
-                        speedBoost = 1;
-                    }
-                    break;
-                case 4: //Radar, the script is found elsewhere lmfao
-
-                    break;
             }
             //drain stamina when sprinting, if stamina is 0 don't allow sprint
             sprintKey = Input.GetAxis("Sprint");

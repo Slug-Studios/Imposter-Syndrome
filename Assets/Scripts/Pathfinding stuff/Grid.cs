@@ -24,7 +24,7 @@ public class Grid : MonoBehaviour
             n.worldPosition = transform.position - n.offsetFromMainParent;
             if (player != null)
             {
-                if (Vector3.Distance(player.position, transform.position) <= 100)
+                if (Vector3.Distance(player.position, transform.position) <= 200)
                 {
                     n.walkable = !Physics.CheckCapsule(n.worldPosition, n.worldPosition + Vector3.up * 0.01f, nodeRaduis, unwalkableMask);
                 }
@@ -102,8 +102,7 @@ public class Grid : MonoBehaviour
     public List<Node> path;
     void OnDrawGizmos()
     {
-        if (true)
-        {
+        /*
             Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, 10, gridWorldSize.y));
 
             if (grid != null)
@@ -123,10 +122,10 @@ public class Grid : MonoBehaviour
                         {
                             Gizmos.color = Color.black;
                         }
-                    }
-                    Gizmos.DrawCube(n.worldPosition + Vector3.down * 2, Vector3.one * (nodeDiameter - .1f));
-                }
+                 }
+                Gizmos.DrawCube(n.worldPosition + Vector3.down * 2, Vector3.one * (nodeDiameter - .1f));
             }
         }
+        */
     }
 }

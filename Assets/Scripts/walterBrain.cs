@@ -110,7 +110,7 @@ public class walterBrain : MonoBehaviour
     {
         //Raycast at player, if can detect the player, output true, otherwise output false
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, player.position - transform.position, out hit, 50f))
+        if (Physics.Raycast(transform.position, player.position - transform.position, out hit, 150f))
         {
             if (hit.collider.GetComponent<playerController>() != null)
             {

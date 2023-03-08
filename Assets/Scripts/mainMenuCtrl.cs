@@ -9,16 +9,16 @@ public class mainMenuCtrl : MonoBehaviour
     public Canvas mainCanvas;
     public Canvas settingsCanvas;
     public Slider ambValue;
-    public static float ambientV = 0.05f;
+    public static float ambientV = 0.10f;
     public Slider entValue;
     public static float entityV = 1;
-    public static float musicV = 0.5f;
+    public static float musicV = 0.25f;
     public Slider musValue;
     public List<AudioSource> musicSources;
     public Slider footStepValue;
-    public static float footStepV = 0.25f;
+    public static float footStepV = 0.175f;
     public Slider SFXValue;
-    public static float SFXV = 0.5f;
+    public static float SFXV = 0.25f;
     
     
 

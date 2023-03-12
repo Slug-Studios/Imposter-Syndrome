@@ -72,7 +72,7 @@ public class imposterBrain : MonoBehaviour
                     StartCoroutine(killAnimation());
                 } else if (pathfinder.Path != null && pathfinder.target != null && pathfinder.Path[0].offsetFromMainParent != null && Mathf.Sqrt(Mathf.Pow(ImpRigigbody.velocity.x, 2) + Mathf.Pow(ImpRigigbody.velocity.z, 2)) <= speed)
                 {
-                    transform.rotation = Quaternion.Euler(0, Mathf.Atan2(pathfinder.Path[0].offsetFromMainParent.x, pathfinder.Path[0].offsetFromMainParent.z) * Mathf.Rad2Deg + 180, 0);
+                    transform.rotation = Quaternion.Euler(0, Mathf.Atan2(transform.position.x - pathfinder.Path[0].worldPosition.x, transform.position.z - pathfinder.Path[0].worldPosition.z) * Mathf.Rad2Deg + 180, 0);
                     ImpRigigbody.AddRelativeForce(Vector3.forward * speed * Time.deltaTime);
                     
                 }
@@ -106,7 +106,7 @@ public class imposterBrain : MonoBehaviour
                 }
                 if (pathfinder.Path != null && pathfinder.target != null && pathfinder.Path[0].offsetFromMainParent != null && Mathf.Sqrt(Mathf.Pow(ImpRigigbody.velocity.x, 2) + Mathf.Pow(ImpRigigbody.velocity.z, 2)) <= speed)
                 {
-                    transform.rotation = Quaternion.Euler(0, Mathf.Atan2(pathfinder.Path[0].offsetFromMainParent.x, pathfinder.Path[0].offsetFromMainParent.z) * Mathf.Rad2Deg + 180, 0);
+                    transform.rotation = Quaternion.Euler(0, Mathf.Atan2(transform.position.x - pathfinder.Path[0].worldPosition.x, transform.position.z - pathfinder.Path[0].worldPosition.z) * Mathf.Rad2Deg + 180, 0);
                     ImpRigigbody.AddRelativeForce(Vector3.forward * speed * Time.deltaTime);
                 }
                 if (time >= 0 || pathfinder.target == null) // every 10 seconds or if the target is null, find a new path

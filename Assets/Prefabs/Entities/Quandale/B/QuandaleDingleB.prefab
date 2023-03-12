@@ -1169,6 +1169,8 @@ MonoBehaviour:
     m_Bits: 128
   gridWorldSize: {x: 99, y: 99}
   nodeRaduis: 0.5
+  gridCenter: {x: 0, y: 0, z: 0}
+  updateOffset: 3
 --- !u!136 &8285591797731653798
 CapsuleCollider:
   m_ObjectHideFlags: 0

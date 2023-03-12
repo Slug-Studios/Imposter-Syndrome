@@ -10,28 +10,33 @@ public class Grid : MonoBehaviour
     public Vector2 gridWorldSize;
     public float nodeRaduis;
     Node[,] grid;
+    public Vector3 gridCenter;
+    public int updateOffset;
 
     float nodeDiameter;
     int gridSizeX, gridSizeY;
 
-    public List<Node> funky;
 
-    //test thing to move grid
-    public void Update()
+    //move grid
+    private void Updategrid()
     {
+        gridCenter = transform.position;
+        bool inDistance = false;
+        if (Vector3.Distance(player.position, gridCenter) <= 200)
+        {
+            inDistance = true;
+        }
         foreach (Node n in grid)
         {
-            n.worldPosition = transform.position - n.offsetFromMainParent;
+            n.worldPosition = gridCenter - n.offsetFromMainParent;
             if (player != null)
+            if (inDistance)
             {
-                if (Vector3.Distance(player.position, transform.position) <= 200)
-                {
-                    n.walkable = !Physics.CheckCapsule(n.worldPosition, n.worldPosition + Vector3.up * 0.01f, nodeRaduis, unwalkableMask);
-                }
-                else
-                {
-                    n.walkable = true;
-                }
+                n.walkable = !Physics.CheckCapsule(n.worldPosition, n.worldPosition + Vector3.up * 0.01f, nodeRaduis, unwalkableMask);
+            }
+            else
+            {
+                n.walkable = true;
             }
         }
     }
@@ -42,7 +47,7 @@ public class Grid : MonoBehaviour
         gridSizeX = Mathf.RoundToInt(gridWorldSize.x/nodeDiameter);
         gridSizeY = Mathf.RoundToInt(gridWorldSize.y/nodeDiameter);
         CreateGrid();
-
+        InvokeRepeating("Updategrid", updateOffset, 5);
     }
     void CreateGrid()
     {
@@ -81,13 +86,12 @@ public class Grid : MonoBehaviour
                 }
             }
         }
-        funky = neightbours;
         return neightbours;
     }
 
     public Node NodeFromWorldPoint(Vector3 worldPostition)
     {
-        worldPostition = worldPostition - transform.position;
+        worldPostition = worldPostition - gridCenter;
         float percentX = (worldPostition.x/ gridWorldSize.x) + 0.5f;
         float percentY = (worldPostition.z/ gridWorldSize.y) + 0.5f;
         percentX = Mathf.Clamp01(percentX);
@@ -102,8 +106,8 @@ public class Grid : MonoBehaviour
     public List<Node> path;
     void OnDrawGizmos()
     {
-        /*
-            Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, 10, gridWorldSize.y));
+        /**/
+            Gizmos.DrawWireCube(gridCenter, new Vector3(gridWorldSize.x, 10, gridWorldSize.y));
 
             if (grid != null)
             {
@@ -126,6 +130,6 @@ public class Grid : MonoBehaviour
                 Gizmos.DrawCube(n.worldPosition + Vector3.down * 2, Vector3.one * (nodeDiameter - .1f));
             }
         }
-        */
+        /**/
     }
 }

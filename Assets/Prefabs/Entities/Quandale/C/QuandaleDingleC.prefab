@@ -946,7 +946,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: bef71504fa54a4041af018130337c06e, type: 3}
   Quandale1: {fileID: 0}
   Quandale2: {fileID: 0}
-  KillOffset: {x: 0, y: 4, z: 5}
+  KillOffset: {x: 0, y: 3, z: 7.5}
   type: 3
   Unwalkable:
     serializedVersion: 2
@@ -983,6 +983,8 @@ MonoBehaviour:
     m_Bits: 128
   gridWorldSize: {x: 99, y: 99}
   nodeRaduis: 1
+  gridCenter: {x: 0, y: 0, z: 0}
+  updateOffset: 4
 --- !u!136 &-4269713188819846728
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -994,9 +996,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5
-  m_Height: 9.508371
+  m_Height: 4.282666
   m_Direction: 1
-  m_Center: {x: 0, y: 5.42, z: -0}
+  m_Center: {x: 0, y: 2.8071475, z: 0}
 --- !u!1 &7779420615921626088
 GameObject:
   m_ObjectHideFlags: 0

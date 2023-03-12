@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Pathfinder : MonoBehaviour
 {
-    Grid grid;
+    public Grid grid;
     public Transform player;
     public Transform target;
     public List<Node> Path;

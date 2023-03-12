@@ -146,7 +146,7 @@ public class quandaleBrain : MonoBehaviour
                     StartCoroutine(killAnimation());
                 } else if (pathfinder.Path != null && pathfinder.target != null && pathfinder.Path[0].offsetFromMainParent != null && Mathf.Sqrt(Mathf.Pow(QuandaleRigidbody.velocity.x, 2) + Mathf.Pow(QuandaleRigidbody.velocity.z, 2)) <= speed)
                 {
-                    float targetAngle = Mathf.Atan2(pathfinder.Path[0].offsetFromMainParent.x, pathfinder.Path[0].offsetFromMainParent.z) * Mathf.Rad2Deg;
+                    float targetAngle = Mathf.Atan2(transform.position.x - pathfinder.Path[0].worldPosition.x, transform.position.z - pathfinder.Path[0].worldPosition.z) * Mathf.Rad2Deg;
                     transform.rotation = Quaternion.Euler(0, targetAngle + 180, 0);
                     QuandaleRigidbody.AddRelativeForce(Vector3.forward * speed * Time.deltaTime);
                 }
@@ -167,7 +167,7 @@ public class quandaleBrain : MonoBehaviour
                 }
                 if (pathfinder.Path != null && pathfinder.target != null && pathfinder.Path[0].offsetFromMainParent != null)
                 {
-                    float targetAngle = Mathf.Atan2(pathfinder.Path[0].offsetFromMainParent.x, pathfinder.Path[0].offsetFromMainParent.z) * Mathf.Rad2Deg;
+                    float targetAngle = Mathf.Atan2(transform.position.x - pathfinder.Path[0].worldPosition.x, transform.position.z - pathfinder.Path[0].worldPosition.z) * Mathf.Rad2Deg;
                     transform.rotation = Quaternion.Euler(0, targetAngle + 180, 0);
                     QuandaleRigidbody.AddRelativeForce(Vector3.forward * speed * Time.deltaTime);
                 }

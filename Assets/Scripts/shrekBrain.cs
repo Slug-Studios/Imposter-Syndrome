@@ -115,7 +115,7 @@ public class shrekBrain : MonoBehaviour
                 }
                 else if (pathfinder.Path != null && pathfinder.target != null && pathfinder.Path[0].offsetFromMainParent != null && Mathf.Sqrt(Mathf.Pow(ShrekRigidbody.velocity.x, 2) + Mathf.Pow(ShrekRigidbody.velocity.z, 2)) <= speed)
                 {
-                    float targetAngle = Mathf.Atan2(pathfinder.Path[0].offsetFromMainParent.x, pathfinder.Path[0].offsetFromMainParent.z) * Mathf.Rad2Deg;
+                    float targetAngle = Mathf.Atan2(transform.position.x - pathfinder.Path[0].worldPosition.x, transform.position.z - pathfinder.Path[0].worldPosition.z) * Mathf.Rad2Deg;
                     transform.rotation = Quaternion.Euler(0, targetAngle + 180, 0);
                     ShrekRigidbody.AddRelativeForce(Vector3.forward * speed * Time.deltaTime);
                 }
@@ -149,7 +149,7 @@ public class shrekBrain : MonoBehaviour
                 }
                 if (pathfinder.Path != null && pathfinder.target != null && pathfinder.Path[0].offsetFromMainParent != null)
                 {
-                    float targetAngle = Mathf.Atan2(pathfinder.Path[0].offsetFromMainParent.x, pathfinder.Path[0].offsetFromMainParent.z) * Mathf.Rad2Deg;
+                    float targetAngle = Mathf.Atan2(transform.position.x - pathfinder.Path[0].worldPosition.x, transform.position.z - pathfinder.Path[0].worldPosition.z) * Mathf.Rad2Deg;
                     transform.rotation = Quaternion.Euler(0, targetAngle + 180, 0);
                     ShrekRigidbody.AddRelativeForce(Vector3.forward * speed * Time.deltaTime);
                 }

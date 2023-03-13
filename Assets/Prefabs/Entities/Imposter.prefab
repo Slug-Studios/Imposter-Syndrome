@@ -1405,10 +1405,10 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 0
+  MinDistance: 1
   MaxDistance: 130
   Pan2D: 0
-  rolloffMode: 1
+  rolloffMode: 2
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -1461,8 +1461,8 @@ AudioSource:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.64
-      value: 0.03125
+      time: 0.64552367
+      value: 0.023101807
       inSlope: -0.04884758
       outSlope: -0.04884758
       tangentMode: 0
@@ -1501,7 +1501,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.18055555
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -1564,6 +1564,8 @@ MonoBehaviour:
     m_Bits: 128
   gridWorldSize: {x: 99, y: 99}
   nodeRaduis: 0.5
+  gridCenter: {x: 0, y: 0, z: 0}
+  updateOffset: 0
 --- !u!82 &2455584773868693749
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1688,6 +1690,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10fef416ee42dbb41adfad6b9d9600bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  grid: {fileID: 0}
   player: {fileID: 0}
   target: {fileID: 0}
 --- !u!136 &4148889827382746543

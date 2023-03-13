@@ -48,7 +48,8 @@ public class playerController : MonoBehaviour
     public Collider Pcollider;
     public GameObject equipedItem;
     public Image Winscreen;
-
+    public List<Sprite> WinscreenSprites;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -218,6 +219,7 @@ public class playerController : MonoBehaviour
                     HamoodFoundYou.color = new Color(255, 255, 255, time - 1.5f);
                     break;
                 case -1:// case -1, win
+                    Winscreen.sprite = WinscreenSprites[Random.Range(0, WinscreenSprites.Count - 1)];
                     Winscreen.color = new Color(255, 255, 255, time - 1.5f);
                     break;
             }

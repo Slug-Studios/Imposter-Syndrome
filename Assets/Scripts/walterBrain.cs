@@ -19,6 +19,7 @@ public class walterBrain : MonoBehaviour
     public List<GameObject> Items;
     private bool lookPlayer = true;
     public bool Itempicked;
+    private playerController playerc;
 
 
     // Start is called before the first frame update
@@ -30,11 +31,16 @@ public class walterBrain : MonoBehaviour
         Speaker.clip = Main;
         Speaker.loop = true;
         Speaker.Play();
+        playerc = player.GetComponent<playerController>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (playerc.dead)
+        {
+            Destroy(gameObject);
+        }
         //Play animations if walking, when walking move forwards
         if (!Walking)
         {

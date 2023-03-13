@@ -106,7 +106,7 @@ public class Grid : MonoBehaviour
     public List<Node> path;
     void OnDrawGizmos()
     {
-        /**/
+        /**
             Gizmos.DrawWireCube(gridCenter, new Vector3(gridWorldSize.x, 10, gridWorldSize.y));
 
             if (grid != null)

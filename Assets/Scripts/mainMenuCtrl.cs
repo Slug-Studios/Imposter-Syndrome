@@ -20,7 +20,6 @@ public class mainMenuCtrl : MonoBehaviour
     public Slider SFXValue;
     public static float SFXV = 0.25f;
     
-    
 
     // Start is called before the first frame update
     void Start()

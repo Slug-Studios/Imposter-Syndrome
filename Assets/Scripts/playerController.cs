@@ -50,6 +50,7 @@ public class playerController : MonoBehaviour
     public Image Winscreen;
     public List<Sprite> WinscreenSprites;
     private float lookAngle;
+    private Transform entityKiller;
     
 
     // Start is called before the first frame update
@@ -263,6 +264,9 @@ public class playerController : MonoBehaviour
 
     public void DeathAnim(Transform Killer, Vector3 Offset, Quaternion OffsetRotation)
     {
+        Killer.Translate(Vector3.back * 2);
+        entityKiller = Killer;
+        Camera.transform.localRotation = Quaternion.identity;
         QuandaleA.seekPhase = 0;
         QuandaleB.seekPhase = 0;
         QuandaleC.seekPhase = 0;
@@ -271,9 +275,8 @@ public class playerController : MonoBehaviour
         UICanvas.enabled = false;
         menuUp = false;
         canMove = false;
-        GetComponent<Rigidbody>().velocity = Vector3.zero;
-        Camera.transform.rotation = Quaternion.identity;
-        //transform.rotation = Quaternion.Euler(transform.rotation.x, Mathf.Atan2(transform.position.x - Killer.position.x, transform.position.z - Killer.position.z) * Mathf.Rad2Deg + 180, transform.rotation.z);
+        Destroy(GetComponent<Rigidbody>());
+        Destroy(Killer.GetComponent<Rigidbody>());
         transform.parent = Killer;
         transform.localRotation = OffsetRotation;
         transform.localPosition = Offset;

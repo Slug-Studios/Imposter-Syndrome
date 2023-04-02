@@ -16,6 +16,12 @@ public class Grid : MonoBehaviour
     float nodeDiameter;
     int gridSizeX, gridSizeY;
 
+    public int MaxSize
+    {
+        get {
+            return gridSizeX * gridSizeY; 
+        }
+    }
 
     //move grid
     private void Updategrid()

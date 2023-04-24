@@ -19,16 +19,42 @@ public class mainMenuCtrl : MonoBehaviour
     public static float footStepV = 0.175f;
     public Slider SFXValue;
     public static float SFXV = 0.25f;
-    
+    public static int lightQuality = 1; //0 is low, 1 is medium, 2 is high
+    public static bool postProccessing = false;
+    public static float MouseSensitivity = 1;
+    public Slider MouseSenSlider;
+    public Text MouseSenText;
+    public Slider LightQualitySlider;
+    public Text LightQText;
+    public Toggle PostProcToggle;
+
 
     // Start is called before the first frame update
     void Start()
     {
+        PostProcToggle.isOn = postProccessing;
         footStepValue.value = footStepV;
         entValue.value = entityV;
         ambValue.value = ambientV;
         musValue.value = musicV;
         SFXValue.value = SFXV;
+        LightQualitySlider.value = lightQuality;
+        string message = "";
+        switch (lightQuality)
+        {
+            case 0:
+                message = "Shit";
+                break;
+            case 1:
+                message = "Ok";
+                break;
+            case 2:
+                message = "Decent";
+                break;
+        }
+        LightQText.text = "Light Quality: " + message;
+        MouseSenSlider.value = MouseSensitivity;
+        MouseSenText.text = "Mouse Sensitivity: " + MouseSensitivity.ToString("0.0");
     }
 
     // Update is called once per frame
@@ -74,5 +100,32 @@ public class mainMenuCtrl : MonoBehaviour
     public void SFXSlider()
     {
         SFXV = SFXValue.value;
+    }
+    public void MouseSlider()
+    {
+        MouseSensitivity = MouseSenSlider.value;
+        MouseSenText.text = "Mouse Sensitivity: " + MouseSensitivity.ToString("0.0");
+    }
+    public void LightQSlider()
+    {
+        lightQuality = (int)LightQualitySlider.value;
+        string message = "";
+        switch (lightQuality)
+        {
+            case 0:
+                message = "Shit";
+                break;
+            case 1:
+                message = "Ok";
+                break;
+            case 2:
+                message = "Decent";
+                break;
+        }
+        LightQText.text = "Light Quality: " + message;
+    }
+    public void PostProcessingTogg()
+    {
+        postProccessing = !postProccessing;
     }
 }

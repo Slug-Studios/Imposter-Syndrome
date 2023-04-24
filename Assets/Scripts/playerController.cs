@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.PostProcessing;
 
 public class playerController : MonoBehaviour
 {
@@ -51,11 +53,19 @@ public class playerController : MonoBehaviour
     public List<Sprite> WinscreenSprites;
     private float lookAngle;
     private Transform entityKiller;
-    
+    public Light LowQLight;
+    public PostProcessLayer PostProcessMainLayer;
+    private float mouseSentitivity_;
 
     // Start is called before the first frame update
     void Start()
     {
+        mouseSentitivity_ = mainMenuCtrl.MouseSensitivity;
+        PostProcessMainLayer.enabled = mainMenuCtrl.postProccessing;
+        if (mainMenuCtrl.lightQuality == 0)
+        {
+            LowQLight.enabled = true;
+        }
         Pcollider = GetComponent<Collider>();
         Physics = GetComponent<Rigidbody>();
         canMove = true;
@@ -141,9 +151,9 @@ public class playerController : MonoBehaviour
                     Physics.drag = 10;
                     Physics.AddRelativeForce(new Vector3(speed * Time.deltaTime * Input.GetAxis("Horizontal") * (sprintKey + 1.5f) * speedBoost, 0, speed * Time.deltaTime * Input.GetAxis("Vertical") * (sprintKey + 2f) * speedBoost));
                 }
-                transform.Rotate(Vector3.up, rotSpeed * Time.deltaTime * Input.GetAxis("Mouse X"));
+                transform.Rotate(Vector3.up, rotSpeed * Time.deltaTime * Input.GetAxis("Mouse X") * mouseSentitivity_);
                 //looking up/down
-                lookAngle = Mathf.Clamp(lookAngle + Time.deltaTime * -Input.GetAxis("Mouse Y") * rotSpeed/2, -30, 40);
+                lookAngle = Mathf.Clamp(lookAngle + Time.deltaTime * -Input.GetAxis("Mouse Y") * mouseSentitivity_ * rotSpeed/2, -30, 40);
                 Camera.transform.localRotation = Quaternion.Euler(lookAngle, 0, 0);
 
                 if (Input.GetKeyDown("z"))

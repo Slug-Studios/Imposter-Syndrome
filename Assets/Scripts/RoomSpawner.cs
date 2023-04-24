@@ -24,12 +24,13 @@ public class RoomSpawner : MonoBehaviour
     public playerController controller;
     private int EntSpawnMin = 500;
     private int EntSpawnMax = 800;
+    private List<Transform> roomlist;
 
 
     // Start is called before the first frame update
     void Start()
     {
-
+        roomlist = new List<Transform>();
         //generate entities
 
         foreach (GameObject E in Entities)
@@ -90,6 +91,7 @@ public class RoomSpawner : MonoBehaviour
         roomGen = Instantiate(endRoom, new Vector3(endX, 0, endY), transform.rotation, transform);
         roomGen.transform.RotateAround(new Vector3(endX+spread*(float)1.5, 0, endY+spread*(float)1.5), Vector3.down, 0);
         radarScript.target = roomGen.transform.position;
+
         //Make sure nothing else generates in the room
         for (int i = 0; i < 4; i = i + 1)
         {
@@ -126,6 +128,7 @@ public class RoomSpawner : MonoBehaviour
             if (!genFail)
             {
                 roomGen = Instantiate(Lrooms[Random.Range(0, Lrooms.Count)], genPos, transform.rotation, transform);
+                roomGen.GetComponent<DisableLightifPlayerClose>().Player_ = Player_;
                 roomGen.transform.RotateAround(new Vector3(X + spread * (float)0.5, 0, Y + spread * (float)0.5), Vector3.down, 0);
 
                 //it isn't worth it to put 2 for loops for this I think
@@ -133,6 +136,7 @@ public class RoomSpawner : MonoBehaviour
                 takenPos.Add(new Vector3(X + spread, 0, Y + spread));
                 takenPos.Add(new Vector3(X + spread, 0, Y));
                 takenPos.Add(new Vector3(X, 0, Y + spread));
+                roomlist.Add(roomGen.transform);
 
             } else
             {
@@ -165,7 +169,9 @@ public class RoomSpawner : MonoBehaviour
                 // generate a room if nothing is there, otherwise move on
                 if (!genFail)
                 {
-                    Instantiate(rooms[Random.Range(0, rooms.Count)], genPos, Quaternion.Euler(new Vector3(0, 90 * Random.Range(0, 3), 0)), transform);
+                    roomGen = Instantiate(rooms[Random.Range(0, rooms.Count)], genPos, Quaternion.Euler(new Vector3(0, 90 * Random.Range(0, 3), 0)), transform);
+                    roomGen.GetComponent<DisableLightifPlayerClose>().Player_ = Player_;
+                    roomlist.Add(roomGen.transform);
                 }
                 //reset Fail check, move on to next row
                 genFail = false;
@@ -174,6 +180,22 @@ public class RoomSpawner : MonoBehaviour
             //Make X higher to generate the next row
             distanceX = distanceX + spread;
         }
+        InvokeRepeating("UpdateRooms", 0, 5);
         
+    }
+    void UpdateRooms()//function that updates all of the rooms, disabling them if the player is too far away
+    {
+        float dst = 0;
+        foreach(Transform R in roomlist)
+        {
+            dst = (Player_.position.x - R.position.x)* (Player_.position.x - R.position.x) + (Player_.position.z - R.position.z)* (Player_.position.z - R.position.z);
+            if (dst > 40000)
+            {
+                R.gameObject.SetActive(false);
+            } else
+            {
+                R.gameObject.SetActive(true);
+            }
+        }
     }
 }

@@ -39,20 +39,7 @@ public class mainMenuCtrl : MonoBehaviour
         musValue.value = musicV;
         SFXValue.value = SFXV;
         LightQualitySlider.value = lightQuality;
-        string message = "";
-        switch (lightQuality)
-        {
-            case 0:
-                message = "Shit";
-                break;
-            case 1:
-                message = "Ok";
-                break;
-            case 2:
-                message = "Decent";
-                break;
-        }
-        LightQText.text = "Light Quality: " + message;
+        LightQSlider();
         MouseSenSlider.value = MouseSensitivity;
         MouseSenText.text = "Mouse Sensitivity: " + MouseSensitivity.ToString("0.0");
     }
@@ -126,6 +113,6 @@ public class mainMenuCtrl : MonoBehaviour
     }
     public void PostProcessingTogg()
     {
-        postProccessing = !postProccessing;
+        postProccessing = PostProcToggle.isOn;
     }
 }

@@ -128,7 +128,7 @@ public class RoomSpawner : MonoBehaviour
             if (!genFail)
             {
                 roomGen = Instantiate(Lrooms[Random.Range(0, Lrooms.Count)], genPos, transform.rotation, transform);
-                roomGen.GetComponent<DisableLightifPlayerClose>().Player_ = Player_;
+                roomGen.GetComponent<DisableLightifPlayerClose>().Init(Player_);
                 roomGen.transform.RotateAround(new Vector3(X + spread * (float)0.5, 0, Y + spread * (float)0.5), Vector3.down, 0);
 
                 //it isn't worth it to put 2 for loops for this I think
@@ -170,7 +170,7 @@ public class RoomSpawner : MonoBehaviour
                 if (!genFail)
                 {
                     roomGen = Instantiate(rooms[Random.Range(0, rooms.Count)], genPos, Quaternion.Euler(new Vector3(0, 90 * Random.Range(0, 3), 0)), transform);
-                    roomGen.GetComponent<DisableLightifPlayerClose>().Player_ = Player_;
+                    roomGen.GetComponent<DisableLightifPlayerClose>().Init(Player_);
                     roomlist.Add(roomGen.transform);
                 }
                 //reset Fail check, move on to next row
@@ -184,7 +184,7 @@ public class RoomSpawner : MonoBehaviour
         
     }
     void UpdateRooms()//function that updates all of the rooms, disabling them if the player is too far away
-    {
+    {//this one is also a bit slow (could avoid the nessecity to iterate over all the rooms by arranging roomlist as a 2d array of sorts)
         float dst = 0;
         foreach(Transform R in roomlist)
         {

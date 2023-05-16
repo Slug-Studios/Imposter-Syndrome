@@ -6,6 +6,7 @@ using UnityEngine;
 //NONE of this code is mine, and as of writing it I hardly understand it. It exists for optimization only
 //All code taken from this cool tutorial: https://www.youtube.com/watch?v=3Dw5d7PlcTM&list=PLFt_AvWsXl0cq5Umv3pMC9SPnKjfp9eGW&index=4
 
+//I understand it so tis amature(me) optimization time
 public class Heap<T> where T : IHeapItem<T>
 {
     T[] items;

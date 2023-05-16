@@ -13,7 +13,7 @@ public class Pathfinder : MonoBehaviour
         grid = GetComponent<Grid>();
     }
     //most of this script ain't mine
-    public void FindPath(Vector3 startPos, Vector3 targetPos)
+    public void FindPath(Vector3 startPos, Vector3 targetPos)//main lag cause
     {
         Node startNode = grid.NodeFromWorldPoint(startPos);
         Node targetNode = grid.NodeFromWorldPoint(targetPos);
@@ -40,9 +40,13 @@ public class Pathfinder : MonoBehaviour
                 RetracePath(startNode, targetNode);
                 return;
             }
-
-            foreach (Node neighbor in grid.GetNeighBours(currentNode))
+            //foreach is slightly slower than for, which is slightly slower than for with a cached local var
+            Node[] neighbours = grid.GetNeighBours(currentNode);//could even just read these without allocation
+            int n = grid.neighboursIndex-1;
+            for (;n >= 0; n--)
             {
+                //if (neighbours[n] == null) { return; }can be easily optimised out now (without passing around references)
+                Node neighbor = neighbours[n];
                 if (!neighbor.walkable || closedSet.Contains(neighbor))
                 {
                     continue;

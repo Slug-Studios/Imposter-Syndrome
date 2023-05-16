@@ -9,28 +9,41 @@ public class DisableLightifPlayerClose : MonoBehaviour
     public GameObject mainLightHigh;
     public Transform Player_;
     private float dst;
-
-    private void OnEnable()
+    Vector3 difference;
+    Vector3 pos;
+    /*to avoid null references in main menu
+    public void OnEnable()
     {
+        if (Player_ != null)
+        {
+            InvokeRepeating("updateLight", 0, 1);
+            Debug.Log("This was enabled on time!"); //never gets called
+        }
+        else { Debug.Log("Skipped light disable script for " + mainLight.name + ": Player not assigned."); }
+    }/**/
+    public void Init(in Transform Player__)//in keyword so these can be inited in one line
+    {
+        Player_ = Player__;
+        pos = transform.position;
         InvokeRepeating("updateLight", 0, 1);
-
     }
-    void updateLight()
+    void updateLight()//honestly, throwing this in a single class that iterates over all of the lights would be better (only one cal to Player.position)
     {
-        dst = (Player_.position.x - transform.position.x) * (Player_.position.x - transform.position.x) + (Player_.position.z - transform.position.z) * (Player_.position.z - transform.position.z);
+        difference = Player_.position - pos;
+        dst = difference.x * difference.x + difference.z * difference.z;
         if (dst > 10000)
         {
-            mainLight.SetActive(false);
+            mainLight.SetActive(false);//set active is a bit slow, so could only setActive() if object is not yet active
             mainLightHigh.SetActive(false);
         }
         else
         {
-            mainLight.SetActive(true);
             if (mainMenuCtrl.lightQuality == 1)
             {
                 mainLight.SetActive(true);
             } else if (mainMenuCtrl.lightQuality == 2)
             {
+                mainLight.SetActive(true);
                 mainLightHigh.SetActive(true);
             }
             else

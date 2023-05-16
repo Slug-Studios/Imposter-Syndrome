@@ -70,29 +70,42 @@ public class Grid : MonoBehaviour
             }
         }
     }
+    //optimizing away GetNeighbours memory allocation entirely (this adds 96 bytes to a grid's size)
+    //feel free to give them method-specific names (like GetNeighBoursVarNeighbours)
+    //PS looks like I may have lied and this may not be working
+    //Oh I guess the compiler might be doing this anyway, it's probably just the node variable, let's fix that
+    private Node[] neighbours = new Node[8];
+    public int neighboursIndex;
+    private int checkX;
+    private int checkY;
 
-    public List<Node> GetNeighBours(Node node)
+    public Node[] GetNeighBours(in Node node)
     {
-        List<Node> neightbours = new List<Node>();
-
+        neighbours = new Node[8];//can only have eight neighbours anyway, and list slow
+        neighboursIndex = 0;// however we require another var to allow appending (still faster than list)
+        checkX = 0;
+        checkY = 0;
         for (int x = -1; x <= 1; x++)
         {
+            checkX = node.gridX + x;
             for (int y = -1; y <= 1; y++)
             {
                 if (x == 0 && y == 0)
                 {
                     continue;
                 }
-                int checkX = node.gridX + x;
-                int checkY = node.gridY + y;
+                checkY = node.gridY + y;
+                //int checkX = node.gridX + x;//don't think these have to be in the for loop
+                //int checkY = node.gridY + y;
 
-                if (checkX >=0 && checkX < gridSizeX && checkY >= 0 && checkY < gridSizeY)
+                if (checkX >= 0 && checkX < gridSizeX && checkY >= 0 && checkY < gridSizeY)
                 {
-                    neightbours.Add(grid[checkX, checkY]);
+                    neighbours[neighboursIndex] = (grid[checkX, checkY]);
+                    neighboursIndex++;
                 }
             }
         }
-        return neightbours;
+        return neighbours;
     }
 
     public Node NodeFromWorldPoint(Vector3 worldPostition)

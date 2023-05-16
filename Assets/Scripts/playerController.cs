@@ -56,10 +56,14 @@ public class playerController : MonoBehaviour
     public Light LowQLight;
     public PostProcessLayer PostProcessMainLayer;
     private float mouseSentitivity_;
+    public List<AudioClip> AmbientSounds;
+    private AudioSource AmbientPlayer;
+    public float mood;
 
     // Start is called before the first frame update
     void Start()
     {
+        AmbientPlayer = gameObject.AddComponent<AudioSource>();
         mouseSentitivity_ = mainMenuCtrl.MouseSensitivity;
         PostProcessMainLayer.enabled = mainMenuCtrl.postProccessing;
         if (mainMenuCtrl.lightQuality == 0)
@@ -91,6 +95,14 @@ public class playerController : MonoBehaviour
 
         if (canMove)
         {
+            //Play Ambient sounds
+            if (Random.Range(0,1000f) <= mood || Input.GetKeyDown(KeyCode.P))
+            {
+                AmbientPlayer.clip = AmbientSounds[Random.Range(0,AmbientSounds.Count)];
+                AmbientPlayer.volume = mainMenuCtrl.ambientV*Random.Range(30,100)/200*mood;
+                AmbientPlayer.pitch = Random.Range(0.5f, 1.5f);
+                AmbientPlayer.Play();
+            }
             //Upgrades, in a switch statement
             switch (upgradeEquiped)
             {

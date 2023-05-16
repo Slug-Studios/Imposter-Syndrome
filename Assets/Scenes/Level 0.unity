@@ -3788,9 +3788,61 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1997956209}
     - target: {fileID: 4374755424777664737, guid: 3932fa0333b286f4d84c33748caed83c, type: 3}
+      propertyPath: AmbientSounds.Array.size
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 4374755424777664737, guid: 3932fa0333b286f4d84c33748caed83c, type: 3}
+      propertyPath: AmbientSounds.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 5244e2dc81a72504a8e0ca0c6f2637d9, type: 3}
+    - target: {fileID: 4374755424777664737, guid: 3932fa0333b286f4d84c33748caed83c, type: 3}
+      propertyPath: AmbientSounds.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 1b025fc5151d79c4ebb312e25b52b738, type: 3}
+    - target: {fileID: 4374755424777664737, guid: 3932fa0333b286f4d84c33748caed83c, type: 3}
+      propertyPath: AmbientSounds.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: bc77425a1566d684593208c57159c8ff, type: 3}
+    - target: {fileID: 4374755424777664737, guid: 3932fa0333b286f4d84c33748caed83c, type: 3}
+      propertyPath: AmbientSounds.Array.data[3]
+      value: 
+      objectReference: {fileID: 8300000, guid: 2c691577a72798c4789532ed8db24753, type: 3}
+    - target: {fileID: 4374755424777664737, guid: 3932fa0333b286f4d84c33748caed83c, type: 3}
+      propertyPath: AmbientSounds.Array.data[4]
+      value: 
+      objectReference: {fileID: 8300000, guid: a39025555c15fe74a9d0a0fa06eced1a, type: 3}
+    - target: {fileID: 4374755424777664737, guid: 3932fa0333b286f4d84c33748caed83c, type: 3}
+      propertyPath: AmbientSounds.Array.data[5]
+      value: 
+      objectReference: {fileID: 8300000, guid: de518b9c0ea0a4e45ac08a03be479a42, type: 3}
+    - target: {fileID: 4374755424777664737, guid: 3932fa0333b286f4d84c33748caed83c, type: 3}
+      propertyPath: AmbientSounds.Array.data[6]
+      value: 
+      objectReference: {fileID: 8300000, guid: c12708e56369b7240a317fc6f2fb98d6, type: 3}
+    - target: {fileID: 4374755424777664737, guid: 3932fa0333b286f4d84c33748caed83c, type: 3}
+      propertyPath: AmbientSounds.Array.data[7]
+      value: 
+      objectReference: {fileID: 8300000, guid: 6f48614e369a248469c2c88bde58893b, type: 3}
+    - target: {fileID: 4374755424777664737, guid: 3932fa0333b286f4d84c33748caed83c, type: 3}
+      propertyPath: AmbientSounds.Array.data[8]
+      value: 
+      objectReference: {fileID: 8300000, guid: d643ad5cce355cd4f9354813d97eef66, type: 3}
+    - target: {fileID: 4374755424777664737, guid: 3932fa0333b286f4d84c33748caed83c, type: 3}
+      propertyPath: AmbientSounds.Array.data[9]
+      value: 
+      objectReference: {fileID: 8300000, guid: fb501992c932f594e9773274ca6fd143, type: 3}
+    - target: {fileID: 4374755424777664737, guid: 3932fa0333b286f4d84c33748caed83c, type: 3}
       propertyPath: WinscreenSprites.Array.size
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 4374755424777664737, guid: 3932fa0333b286f4d84c33748caed83c, type: 3}
+      propertyPath: AmbientSounds.Array.data[10]
+      value: 
+      objectReference: {fileID: 8300000, guid: cfe2ad43ffde7d84a901bca19790d985, type: 3}
+    - target: {fileID: 4374755424777664737, guid: 3932fa0333b286f4d84c33748caed83c, type: 3}
+      propertyPath: AmbientSounds.Array.data[11]
+      value: 
+      objectReference: {fileID: 8300000, guid: 560830d56d5b7de4cab890bd8bbe6ee4, type: 3}
     - target: {fileID: 4374755424777664737, guid: 3932fa0333b286f4d84c33748caed83c, type: 3}
       propertyPath: WinscreenSprites.Array.data[0]
       value: 

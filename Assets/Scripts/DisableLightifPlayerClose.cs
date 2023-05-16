@@ -9,6 +9,7 @@ public class DisableLightifPlayerClose : MonoBehaviour
     public GameObject mainLightHigh;
     public Transform Player_;
     private float dst;
+    private Vector3 dst3;
 
     private void OnEnable()
     {
@@ -17,7 +18,8 @@ public class DisableLightifPlayerClose : MonoBehaviour
     }
     void updateLight()
     {
-        dst = (Player_.position.x - transform.position.x) * (Player_.position.x - transform.position.x) + (Player_.position.z - transform.position.z) * (Player_.position.z - transform.position.z);
+        dst3 = Player_.transform.position - transform.position;
+        dst = (dst3.x) * (dst3.x) + (dst3.z) * (dst3.z);
         if (dst > 10000)
         {
             mainLight.SetActive(false);

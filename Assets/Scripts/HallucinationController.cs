@@ -78,9 +78,7 @@ public class HallucinationController : MonoBehaviour
     IEnumerator soundDelay()
     {
         float seconds = Random.Range(5, 5 + mood * 20);
-        print(0);
         yield return new WaitForSeconds(seconds);
-        print(1);
         AmbientPlayer.Stop();
     }
 }

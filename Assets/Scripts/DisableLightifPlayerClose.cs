@@ -21,11 +21,12 @@ public class DisableLightifPlayerClose : MonoBehaviour
         }
         else { Debug.Log("Skipped light disable script for " + mainLight.name + ": Player not assigned."); }
     }/**/
-    public void Init(in Transform Player__)//in keyword so these can be inited in one line
+    public DisableLightifPlayerClose Init(in Transform Player__)//in keyword so these can be inited in one line
     {
         Player_ = Player__;
         pos = transform.position;
         //InvokeRepeating("updateLight", 0, 1);
+        return this;
     }
     public void updateLight()//honestly, throwing this in a single class that iterates over all of the lights would be better (only one cal to Player.position)
     {

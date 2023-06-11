@@ -8,6 +8,7 @@ public class mainMenuCtrl : MonoBehaviour
 {
     public Canvas mainCanvas;
     public Canvas settingsCanvas;
+    public Canvas creditCanvas;
     public Slider ambValue;
     public static float ambientV = 0.10f;
     public Slider entValue;
@@ -65,6 +66,11 @@ public class mainMenuCtrl : MonoBehaviour
         mainCanvas.enabled = !mainCanvas.enabled;
         settingsCanvas.enabled = !settingsCanvas.enabled;
     }
+    public void creditPress()
+    {
+        mainCanvas.enabled = !mainCanvas.enabled;
+        creditCanvas.enabled = !creditCanvas.enabled;
+    }
     //Slider shit
     public void ambSlider()
     {
@@ -114,5 +120,13 @@ public class mainMenuCtrl : MonoBehaviour
     public void PostProcessingTogg()
     {
         postProccessing = PostProcToggle.isOn;
+    }
+    public void Credit1()
+    {
+        Application.OpenURL("https://www.youtube.com/watch?v=grd-K33tOSM");
+    }
+    public void Credit2()
+    {
+        Application.OpenURL("https://www.youtube.com/@ticklemytipp/videos");
     }
 }

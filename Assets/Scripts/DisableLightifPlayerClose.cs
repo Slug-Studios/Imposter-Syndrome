@@ -29,6 +29,8 @@ public class DisableLightifPlayerClose : MonoBehaviour
     }
     void updateLight()//honestly, throwing this in a single class that iterates over all of the lights would be better (only one cal to Player.position)
     {
+        dst3 = Player_.transform.position - transform.position;
+        dst = (dst3.x) * (dst3.x) + (dst3.z) * (dst3.z);
         difference = Player_.position - pos;
         dst = difference.x * difference.x + difference.z * difference.z;
         if (dst > 10000)

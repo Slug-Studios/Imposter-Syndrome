@@ -25,9 +25,9 @@ public class DisableLightifPlayerClose : MonoBehaviour
     {
         Player_ = Player__;
         pos = transform.position;
-        InvokeRepeating("updateLight", 0, 1);
+        //InvokeRepeating("updateLight", 0, 1);
     }
-    void updateLight()//honestly, throwing this in a single class that iterates over all of the lights would be better (only one cal to Player.position)
+    public void updateLight()//honestly, throwing this in a single class that iterates over all of the lights would be better (only one cal to Player.position)
     {
         dst3 = Player_.transform.position - pos;
         dst = (dst3.x) * (dst3.x) + (dst3.z) * (dst3.z);

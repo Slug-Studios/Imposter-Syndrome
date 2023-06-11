@@ -25,7 +25,8 @@ public class RoomSpawner : MonoBehaviour
     private int EntSpawnMin = 500;
     private int EntSpawnMax = 800;
     private List<Transform> roomlist;
-
+    private List<DisableLightifPlayerClose> roomLights = new List<DisableLightifPlayerClose>();
+    int roomUpdateProgress = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -128,7 +129,15 @@ public class RoomSpawner : MonoBehaviour
             if (!genFail)
             {
                 roomGen = Instantiate(Lrooms[Random.Range(0, Lrooms.Count)], genPos, transform.rotation, transform);
-                roomGen.GetComponent<DisableLightifPlayerClose>().Init(Player_);
+                DisableLightifPlayerClose tempScript = roomGen.GetComponent<DisableLightifPlayerClose>();
+                if (tempScript != null)
+                {
+                    tempScript.Init(Player_);
+                    roomLights.Add(tempScript);
+                }
+                else {
+                    Debug.Log("A room didn't have the DisableLight script! Room: " + roomGen.name);
+                }
                 roomGen.transform.RotateAround(new Vector3(X + spread * (float)0.5, 0, Y + spread * (float)0.5), Vector3.down, 0);
 
                 //it isn't worth it to put 2 for loops for this I think
@@ -170,7 +179,17 @@ public class RoomSpawner : MonoBehaviour
                 if (!genFail)
                 {
                     roomGen = Instantiate(rooms[Random.Range(0, rooms.Count)], genPos, Quaternion.Euler(new Vector3(0, 90 * Random.Range(0, 3), 0)), transform);
-                    roomGen.GetComponent<DisableLightifPlayerClose>().Init(Player_);
+                    DisableLightifPlayerClose tempScript = roomGen.GetComponent<DisableLightifPlayerClose>();
+                    if (tempScript != null)
+                    {
+                        tempScript.Init(Player_);
+                        roomLights.Add(tempScript);
+                    }
+                    else
+                    {
+                        Debug.Log("A room didn't have the DisableLight script! Room: " + roomGen.name);
+                    }
+                    roomLights.Add(tempScript);
                     roomlist.Add(roomGen.transform);
                 }
                 //reset Fail check, move on to next row
@@ -180,22 +199,27 @@ public class RoomSpawner : MonoBehaviour
             //Make X higher to generate the next row
             distanceX = distanceX + spread;
         }
-        InvokeRepeating("UpdateRooms", 0, 5);
-        
+        //InvokeRepeating("UpdateRooms", 0, 5); this creates instability with frame rate
+        Debug.Log(roomlist.Count + " rooms generated.");
     }
-    void UpdateRooms()//function that updates all of the rooms, disabling them if the player is too far away
+    void Update()//function that updates all of the rooms, disabling them if the player is too far away
     {//this one is also a bit slow (could avoid the nessecity to iterate over all the rooms by arranging roomlist as a 2d array of sorts)
         float dst = 0;
-        foreach(Transform R in roomlist)
+        Vector3 position = Player_.position;
+        for(int i = 0; i < 100; i++)
         {
-            dst = (Player_.position.x - R.position.x)* (Player_.position.x - R.position.x) + (Player_.position.z - R.position.z)* (Player_.position.z - R.position.z);
+            Transform currentRoom = roomlist[roomUpdateProgress];
+            dst = (position.x - currentRoom.position.x)* (position.x - currentRoom.position.x) + (position.z - currentRoom.position.z)* (position.z - currentRoom.position.z);
             if (dst > 40000)
             {
-                R.gameObject.SetActive(false);
+                currentRoom.gameObject.SetActive(false);
             } else
             {
-                R.gameObject.SetActive(true);
+                currentRoom.gameObject.SetActive(true);
+                roomLights[roomUpdateProgress].updateLight();
             }
+            roomUpdateProgress++;
+            if (roomUpdateProgress >= roomlist.Count) { roomUpdateProgress = 0; }
         }
     }
 }

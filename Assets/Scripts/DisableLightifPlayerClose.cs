@@ -9,7 +9,7 @@ public class DisableLightifPlayerClose : MonoBehaviour
     public GameObject mainLightHigh;
     public Transform Player_;
     private float dst;
-    Vector3 difference;
+    Vector3 dst3;//I don't like this name
     Vector3 pos;
     /*to avoid null references in main menu
     public void OnEnable()
@@ -29,10 +29,8 @@ public class DisableLightifPlayerClose : MonoBehaviour
     }
     void updateLight()//honestly, throwing this in a single class that iterates over all of the lights would be better (only one cal to Player.position)
     {
-        dst3 = Player_.transform.position - transform.position;
+        dst3 = Player_.transform.position - pos;
         dst = (dst3.x) * (dst3.x) + (dst3.z) * (dst3.z);
-        difference = Player_.position - pos;
-        dst = difference.x * difference.x + difference.z * difference.z;
         if (dst > 10000)
         {
             mainLight.SetActive(false);//set active is a bit slow, so could only setActive() if object is not yet active

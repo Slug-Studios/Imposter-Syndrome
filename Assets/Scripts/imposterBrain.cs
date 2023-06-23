@@ -112,6 +112,7 @@ public class imposterBrain : MonoBehaviour
                 if (time >= 0 || pathfinder.target == null) // every 10 seconds or if the target is null, find a new path
                 {
                     time = -10;
+                    if (pathfinder.target != null) { Destroy(pathfinder.target.gameObject); }
                     pathfinder.target = new GameObject("target").transform;
                     pathfinder.target.position = transform.position + new Vector3(Random.Range(-50, 50), 0, Random.Range(-50,50));
                 }

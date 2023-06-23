@@ -8,6 +8,7 @@ public class Pathfinder : MonoBehaviour
     public Transform player;
     public Transform target;
     public List<Node> Path;
+    public List<Vector3> simplePath;
     private void Start()
     {
         grid = GetComponent<Grid>();
@@ -31,8 +32,6 @@ public class Pathfinder : MonoBehaviour
 
             Node currentNode = openSet.RemoveFirst();
             
-
-
             closedSet.Add(currentNode);
 
             if (currentNode == targetNode)
@@ -72,17 +71,17 @@ public class Pathfinder : MonoBehaviour
 
     void RetracePath(Node startNode, Node endNode)
     {
-        List<Node> path = new List<Node>();
+        //we don't need a local variable here
+        Path = new List<Node>();
         Node currentNode = endNode;
 
         while (currentNode != startNode)
         {
-            path.Add(currentNode);
+            Path.Add(currentNode);
             currentNode = currentNode.parent;
         }
-        path.Reverse();
-        Path = path;
-        grid.path = path;
+        Path.Reverse();
+        //grid.path = path; unused
     }
 
     int GetDistance(Node NodeA, Node NodeB)

@@ -35,10 +35,9 @@ public class Grid : MonoBehaviour
         foreach (Node n in grid)
         {
             n.worldPosition = gridCenter - n.offsetFromMainParent;
-            if (player != null)
             if (inDistance)
             {
-                n.walkable = !Physics.CheckCapsule(n.worldPosition, n.worldPosition + Vector3.up * 0.01f, nodeRaduis, unwalkableMask);
+                n.walkable = !Physics.CheckSphere(n.worldPosition, nodeRaduis, unwalkableMask);
             }
             else
             {
@@ -122,7 +121,7 @@ public class Grid : MonoBehaviour
         return grid[x, y];
     }
 
-    public List<Node> path;
+    //public List<Node> path;
     void OnDrawGizmos()
     {
         /**

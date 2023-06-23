@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 
 public class RoomSpawner : MonoBehaviour
@@ -182,6 +183,23 @@ public class RoomSpawner : MonoBehaviour
             distanceX = distanceX + spread;
         }
         //InvokeRepeating("UpdateRooms", 0, 5); this creates instability with frame rate
+        /*Vector3 randomPosition = new Vector3(Random.Range(-100.0f,100.0f), Random.Range(-100.0f, 100.0f), Random.Range(-100.0f, 100.0f));
+        Stopwatch timer = Stopwatch.StartNew();
+        for(int i = 0; i < 100000; i++)
+        {
+            Physics.CheckSphere(randomPosition, 0.5f, 0b1000000);
+            randomPosition = new Vector3(Random.Range(-100.0f, 100.0f), Random.Range(-100.0f, 100.0f), Random.Range(-100.0f, 100.0f));
+        }
+        timer.Stop();
+        UnityEngine.Debug.Log("Sphere: " + timer.ElapsedMilliseconds);
+        timer.Restart();
+        for (int i = 0; i < 100000; i++)
+        {
+            Physics.CheckCapsule(randomPosition, randomPosition + Vector3.up * 0.01f, 0.5f, 0b1000000);
+            randomPosition = new Vector3(Random.Range(-100.0f, 100.0f), Random.Range(-100.0f, 100.0f), Random.Range(-100.0f, 100.0f));
+        }
+        timer.Stop();
+        UnityEngine.Debug.Log("Capsule: " + timer.ElapsedMilliseconds);/**/
     }
     void Update()//function that updates all of the rooms, disabling them if the player is too far away
     {//this one is also a bit slow (could avoid the nessecity to iterate over all the rooms by arranging roomlist as a 2d array of sorts)

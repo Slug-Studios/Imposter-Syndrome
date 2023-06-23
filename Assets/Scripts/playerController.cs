@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using UnityEngine.Rendering;
 using UnityEngine.Rendering.PostProcessing;
+using UnityEngine.Video;
 
 public class playerController : MonoBehaviour
 {
@@ -56,6 +56,7 @@ public class playerController : MonoBehaviour
     public Light LowQLight;
     public PostProcessLayer PostProcessMainLayer;
     private float mouseSentitivity_;
+    public VideoPlayer Video;
 
     // Start is called before the first frame update
     void Start()
@@ -79,6 +80,11 @@ public class playerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //test
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Video.Play();
+        }
         if (menuUp || dead)
         {
             Cursor.visible = true;
